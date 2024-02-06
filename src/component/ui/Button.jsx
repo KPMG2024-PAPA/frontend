@@ -2,19 +2,20 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledButton = styled.button`
-    cursor: pointer;
-    padding-bottom: 30px;
-    background-color: white;
-    border-radius: 15px;
+    padding: 7px 7px;
+    font-size: 16px;
+    border-width: 0px;
+    border-radius: 5px;
     display: flex;
-    flex-direction: column;
+    width: 140px;
+    height: 32px;
+    cursor: pointer;
+    align-items: center;
+    background: linear-gradient(to right, #9dbdeb, #7f85d8);
+    color: white;
     justify-content: center;
-    align-items: left;
-    min-height: 270px;
-    max-height: 270px;
-    margin-bottom: 20px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    outline: none; /* 윤곽선 제거 */
+    font-family: 'Pretendard', sans-serif; /* NanumNeo 폰트를 적용 */
 `;
 
 
