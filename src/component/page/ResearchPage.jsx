@@ -115,7 +115,7 @@ const ResearchPage = () => {
       <AllGlobalStyle />
       <Header></Header>
       <Wrapper>
-          <MainTitleText>여기는 <HighlightText>유사도 분석</HighlightText> 페이지</MainTitleText>
+          <MainTitleText>여기는 <HighlightText>리서치</HighlightText> 페이지</MainTitleText>
       </Wrapper>
     </div>
   );
