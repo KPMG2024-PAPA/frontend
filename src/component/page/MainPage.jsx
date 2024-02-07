@@ -6,8 +6,10 @@ import { createGlobalStyle } from 'styled-components';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: 'Pretendard';
+    font-family: 'Pretendard-ExtraBold';
     src: url('/font/Pretendard-ExtraBold.ttf') format('truetype');
+    font-family: 'Pretendard-Medium';
+    src: url('/font/Pretendard-Medium.ttf') format('truetype');
   }
     body {
     font-family: 'Pretendard', sans-serif;
