@@ -18,7 +18,7 @@ const AllGlobalStyle = createGlobalStyle`
  `;
 
  
-// 전체적인 레이아웃을 담당하는 코드
+/* 레이아웃 코드 */
 const Wrapper = styled.div`
   padding: 30px;
   display: flex;
@@ -54,6 +54,7 @@ const FourthWrapper = styled.div`
 `;
 
 
+/* 상단바- 레이아웃 코드 */
 const Header = styled.div`
   display: flex;
   justify-content: space-between; /* 왼쪽과 오른쪽 컨테이너 사이의 공간을 최대로 확장 */
@@ -74,7 +75,7 @@ const RightContainer = styled.div`
   justify-content: flex-end;
 `;
 
-
+/* 상단바- 왼쪽 로고 코드  */
 const HeaderLogo = styled.div`
     border-radius: 10px;
     display: flex;
@@ -92,6 +93,12 @@ const HeaderLogoText = styled.p`
   font-size: 27px;
 `;
 
+const ClickableBoxLogo = styled(HeaderLogo)`
+  cursor: pointer;
+`;
+
+
+/* 상단바- 선택된 페이지 버튼 코드 */
 const HeaderBox = styled.div`
     border-radius: 15px;
     display: flex;
@@ -105,6 +112,24 @@ const HeaderBox = styled.div`
     margin-right: 5px;
 `;
 
+const HeaderBoxText = styled.p`
+  font-size: 16px;
+  text-align: center;
+  color: #252a2f;
+  /* justify-content와 align-items 제거 */
+`;
+
+const ClickableBox = styled(HeaderBox)`
+  cursor: pointer;
+  transition: background-color 0.3s ease; // 배경 색상 변화에 애니메이션 효과를 추가합니다.
+  &:hover {
+    background-color: #9dbdeb; // 여기서 원하는 색상으로 바꿉니다.
+  }
+`;
+
+
+
+/* 상단바- 선택되지 않은 페이지 코드 */
 const HeaderBoxNone = styled.div`
     border-radius: 15px;
     display: flex;
@@ -118,28 +143,11 @@ const HeaderBoxNone = styled.div`
     margin-right: 5px;
 `;
 
-
-const HeaderBoxText = styled.p`
-  font-size: 16px;
-  text-align: center;
-  color: #252a2f;
-  /* justify-content와 align-items 제거 */
-`;
-
 const HeaderBoxTextNone = styled.p`
   font-size: 16px;
   text-align: center;
   color: #8c8c8c;
   /* justify-content와 align-items 제거 */
-`;
-
-
-const ClickableBox = styled(HeaderBox)`
-  cursor: pointer;
-  transition: background-color 0.3s ease; // 배경 색상 변화에 애니메이션 효과를 추가합니다.
-  &:hover {
-    background-color: #9dbdeb; // 여기서 원하는 색상으로 바꿉니다.
-  }
 `;
 
 const ClickableBoxNone = styled(HeaderBoxNone)`
@@ -150,13 +158,9 @@ const ClickableBoxNone = styled(HeaderBoxNone)`
   }
 `;
 
-const ClickableBoxLogo = styled(HeaderLogo)`
-  cursor: pointer;
-`;
 
 
-
-// 제목 담당
+/* 페이지 제목 */
 const MainTitleText = styled.p`
     font-size: 46px;
     font-weight: bold;
@@ -173,14 +177,8 @@ const HighlightText = styled.span`
     padding-right: 10px;
 `;
 
-const SubTitleText = styled.p`
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: -5px;
-    padding-bottom: 60px;
-`;
 
+/* 본문 좌측 */
 const GuideText = styled.p`
   font-size: 20px;
   text-align: center;
@@ -195,7 +193,7 @@ const ButtonContainer = styled.p`
   align-items: right;
 `;
 
-
+/* 본문 우측 */
 const Box = styled.div`
     font-size: 30px;
     padding-left: 15px;

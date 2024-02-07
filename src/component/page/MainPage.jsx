@@ -128,7 +128,6 @@ const MainPage = () => {
       <Wrapper>
           <MainTitleText>안녕하세요, <HighlightText>PAPA</HighlightText> 입니다</MainTitleText>
           <SubTitleText>원하시는 서비스를 클릭해주세요</SubTitleText>
-
         <SecondWrapper>
           <ClickableBox onClick={handleBoxClick1}>
             <BoxText>✍🏻 명세서 작성 보조 서비스</BoxText>
