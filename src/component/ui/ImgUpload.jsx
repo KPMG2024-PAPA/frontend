@@ -9,7 +9,7 @@ const UploadArea = styled.div`
   cursor: pointer;
   //background-color: white;
   transition: background-color 0.3s;
-  min-width: 500px;
+  width: 100%;
   height: 10px;
 
   &:hover {
