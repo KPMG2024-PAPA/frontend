@@ -130,6 +130,7 @@ const BoxText = styled.p`
 
 
 const SpecPage = () => {
+  
   // const navigate = useNavigate();
   // const handleButtonClick = async () => {
   //   try {
@@ -138,26 +139,6 @@ const SpecPage = () => {
   //     console.error('Error sending data to server:', error);
   //   }
   // };
-  const CopyToClipboardButton = ({ text }) => {
-    const copyTextToClipboard = async (text) => {
-      if ('clipboard' in navigator) {
-        try {
-          await navigator.clipboard.writeText(text);
-          alert('Text copied to clipboard');
-        } catch (err) {
-          console.error('Failed to copy: ', err);
-        }
-      } else {
-        console.log('Clipboard API not available');
-      }
-    };
-  
-    return (
-      <button onClick={() => copyTextToClipboard(text)}>Copy Text</button>
-    );
-  };
-
-
 
   return (
     <div>
@@ -180,7 +161,6 @@ const SpecPage = () => {
               <Box>
                 <BoxText>여기에 이제 반환받은명세서를 넣을거에요 미친것....</BoxText>
               </Box>
-              <button onClick={() => copyTextToClipboard(text)}>Copy Text</button>
             </FourthWrapper>
           </SecondWrapper>
       </Wrapper>
