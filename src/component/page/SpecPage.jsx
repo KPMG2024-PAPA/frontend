@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
+import { useState, useEffect } from 'react';
 
 import ImgUpload from '../ui/ImgUpload';
 import TextInput from '../ui/TextInput';
@@ -217,46 +218,109 @@ const BoxText = styled.p`
 `;
 
 
+// 로딩화면 컴포넌트
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; // 수정됨
+`;
+
+
+const Message = styled.p`
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px; // 수정됨
+  opacity: 0; // 초기 상태는 투명
+  align-items: center;
+  animation: fadeInOut 4s infinite; // 4초 동안 무한 반복
+  background-color:  rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 15px;
+
+  @keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+`;
+
+
 const SpecPage = () => {
   const navigate = useNavigate();
+  
+  // 페이지 이동 함수
+  const navigateTo = (path) => {
+    console.log(`${path} clicked!`);
+    navigate(path);
+  };
+  
 
-  const handleBoxClick0 = () => {
-    console.log(`MainPage clicked!`);
-    navigate('/');
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
+
+  // 로딩 화면 컴포넌트
+  const LoadingOverlay = () => {
+    const messages = [
+      <>
+      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🤔</div>
+      <div>작성해주신 내용을 이해하고 있어요</div>
+      </>,
+      <>
+      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>💡</div>
+      <div>곧 명세서를 작성해드릴게요</div>
+      </>,
+      <>
+      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>⌛️</div>
+      <div>3분정도 소요될 수 있어요</div>
+      </>
+    ];
+    
+    const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
+      }, 4000); // 메시지 변경 주기를 4초로 설정 (애니메이션 주기에 맞춤)
+  
+      return () => clearInterval(intervalId);
+    }, []);
+  
+    return (
+      <Overlay>
+        <Message>{messages[currentMessageIndex]}</Message>
+      </Overlay>
+    );
   };
 
-  const handleBoxClick1 = () => {
-    console.log(`Specification Page clicked!`);
-    navigate('/spec-page');
-  };
-
-  const handleBoxClick2 = () => {
-    console.log(`Simularity Analysis Page clicked!`);
-    navigate('/sim-page');
-  };
-
-  const handleBoxClick3 = () => {
-    console.log(`Research Page clicked!`);
-    navigate('/research-page');
+  const handleButtonClick = () => {
+    setIsLoading(true);
+    {/* 버튼 클릭 시, 서버 전달 및 응답 요청*/}
+    {/*응답을 받으면 (false)로 설정 -> 로딩 화면을 비활성화*/}
   };
 
   return (
     <div>
       <AllGlobalStyle />
       <Header>
-        <LeftContainer>
-          <ClickableBoxLogo onClick={handleBoxClick0}>
+      <LeftContainer>
+          <ClickableBoxLogo onClick={() => navigateTo('/')}>
             <HeaderLogoText>PAPA</HeaderLogoText>
           </ClickableBoxLogo>
         </LeftContainer>
         <RightContainer>
-          <ClickableBox onClick={handleBoxClick1}>
+          <ClickableBox onClick={() => navigateTo('/spec-page')}>
             <HeaderBoxText>명세서 작성</HeaderBoxText>
           </ClickableBox>
-          <ClickableBoxNone onClick={handleBoxClick2}>
+          <ClickableBoxNone onClick={() => navigateTo('/sim-page')}>
             <HeaderBoxTextNone>유사도 분석</HeaderBoxTextNone>
           </ClickableBoxNone>
-          <ClickableBoxNone onClick={handleBoxClick3}>
+          <ClickableBoxNone onClick={() => navigateTo('/research-page')}>
             <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
           </ClickableBoxNone>
         </RightContainer>
@@ -269,14 +333,16 @@ const SpecPage = () => {
                 <ImgUpload onFileSelect={(file) => console.log(file)} />
               <GuideText> ✌🏻 발명품에 대한 설명을 해주세요 </GuideText>
                 <TextInput></TextInput>
-              <ButtonContainer>
-                <Button title = '작성 요청하기'/> {/* 분석 버튼을 누를 경우 Imagefile과 TextInput 백에 전달 */}
-              </ButtonContainer>
+                <ButtonContainer>
+                  <Button title='작성 요청하기' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
+                </ButtonContainer>
+                      {/* 로딩 상태가 true일 때만 LoadingOverlay 컴포넌트를 렌더링 */}
+                {isLoading && <LoadingOverlay />}
             </ThirdWrapper>
             <FourthWrapper>
               <GuideText>📝 PAPA가 작성한 초안이에요</GuideText>
               <Box>
-                <BoxText>여기에 이제 반환받은명세서를 넣을거에요 미친것....</BoxText>
+                <BoxText>여기에 이제 반환받은 명세서를 넣을거에요 미친것....</BoxText>
               </Box>
             </FourthWrapper>
           </SecondWrapper>

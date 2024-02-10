@@ -16,7 +16,7 @@ const UploadArea = styled.div`
   cursor: pointer;
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
-  color: green;
+  color: #252a2f;
   transition: background-color 0.3s ease;
   &:hover {
     background-color: #dcdcdc;
@@ -94,7 +94,7 @@ const ImgUpload = ({ onFileSelect }) => {
       <UploadArea onClick={handleClick} onDrop={handleDrop} onDragOver={handleDragOver}>
         {selectedFile ? (
           <>
-            <div>✅ 이미지가 업로드 되었습니다</div>
+            <div style={{ color: 'green'}}>✅ 이미지가 업로드 되었습니다</div>
             <div style={{ fontSize: '12px', marginTop: '5px', color: '#252a2f' }}>다시 업로드하려면 클릭</div>
           </>
         ) : (

@@ -1,8 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
-
+import styled, { createGlobalStyle} from 'styled-components';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -15,7 +13,6 @@ const AllGlobalStyle = createGlobalStyle`
     font-family: 'Pretendard', sans-serif;
     }
  `;
-
  
 // 전체적인 레이아웃을 담당하는 코드
 const Wrapper = styled.div`
@@ -39,15 +36,10 @@ const Header = styled.p`
   height: 60px;
   background-color: #252a2f;
   color: white;
-  background-color: #252a2f;
+  margin: 0px;
   justify-content: center;
   align-items: left;
   `;
-
-const Icon = styled.img`
-  margin-left: 0px;
-  max-width: 100px;
-`;
 
 // 제목 담당
 const MainTitleText = styled.p`
@@ -92,6 +84,7 @@ const Box = styled.div`
     min-height: 400px;
     min-width: 420px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    font-family: 'Pretendard-ExtraBold';
 `;
 
 const ClickableBox = styled(Box)`
@@ -106,19 +99,10 @@ const ClickableBox = styled(Box)`
 const MainPage = () => {
   const navigate = useNavigate();
 
-  const handleBoxClick1 = () => {
-    console.log(`Specification Page clicked!`);
-    navigate('/spec-page');
-  };
-
-  const handleBoxClick2 = () => {
-    console.log(`Simularity Analysis Page clicked!`);
-    navigate('/sim-page');
-  };
-
-  const handleBoxClick3 = () => {
-    console.log(`Research Page clicked!`);
-    navigate('/research-page');
+  //페이지 이동 함수
+  const navigateTo = (path) => {
+    console.log(`${path} clicked!`);
+    navigate(path);
   };
 
   return (
@@ -129,13 +113,13 @@ const MainPage = () => {
           <MainTitleText>안녕하세요, <HighlightText>PAPA</HighlightText> 입니다</MainTitleText>
           <SubTitleText>원하시는 서비스를 클릭해주세요</SubTitleText>
         <SecondWrapper>
-          <ClickableBox onClick={handleBoxClick1}>
+          <ClickableBox onClick={() => navigateTo('/spec-page')}>
             <BoxText>✍🏻 명세서 작성 보조 서비스</BoxText>
           </ClickableBox>
-          <ClickableBox onClick={handleBoxClick2}>
+          <ClickableBox onClick={() => navigateTo('/sim-page')}>
             <BoxText>🧐 국내/해외 특허 유사도 분석 서비스</BoxText>
           </ClickableBox>
-          <ClickableBox onClick={handleBoxClick3}>
+          <ClickableBox onClick={() => navigateTo('/research-page')}>
             <BoxText>🔬 연구 동향 자동 리서치 서비스</BoxText>
           </ClickableBox>
         </SecondWrapper>
