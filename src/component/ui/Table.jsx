@@ -5,29 +5,36 @@ import styled from 'styled-components';
 const StyledTable = styled.table`
   width: 85%;
   border-radius: 15px;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const StyledThead = styled.thead`
-  background: linear-gradient(to right, #9dbdeb, #7f85d8);
+  background: linear-gradient(to right, #d3e8f7, #e9dcf9);
   text-align: center;
   border-radius: 15px;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const StyledTh = styled.th`
   padding: 12px;
-  color: white;
+  color: #252a2f;
   text-align: center;
   border-radius: 15px;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const StyledTd = styled.td`
   padding: 8px;
   text-align: center;
   border-radius: 15px;
+  font-family: 'Pretendard-ExtraBold';
+  color: #252a2f;
 `;
 
 const StyledTr = styled.tr`
   border-radius: 15px;
+  font-family: 'Pretendard-ExtraBold';
+  color: #252a2f;
   &:nth-child(even) {
     background-color: #f9f9f9;
   }

@@ -44,5 +44,5 @@
 }
 
 .link-style:hover {
-  text-decoration: underline; /* 마우스 오버 시 밑줄 표시 */
+  color: #8f96a0; /* 마우스 오버 시 밑줄 표시 */
 }

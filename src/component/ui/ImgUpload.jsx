@@ -25,6 +25,7 @@ const UploadArea = styled.div`
   height: 100px;
   box-sizing: border-box;
   box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1); /* 내부 그림자 효과 추가 */
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const HiddenInput = styled.input`
@@ -37,6 +38,7 @@ const PreviewContainer = styled.div`
   align-items: center; // 가운데 정렬
   //gap: 10px; // 아이템 간 간격 설정
   width: 50%;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const PreviewImage = styled.img`
@@ -44,6 +46,7 @@ const PreviewImage = styled.img`
   max-height: 200px; // 이미지 최대 높이 조정
   //border-radius: 10px; // 이미지 둥근 모서리 추가
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const FileName = styled.p`

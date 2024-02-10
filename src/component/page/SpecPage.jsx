@@ -28,13 +28,15 @@ const Wrapper = styled.div`
   padding-right: 180px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: auto;
 `;
-
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  width: 90%;
   height: 700px;
   padding-top: 60px;
   gap: 50px;
@@ -45,7 +47,6 @@ const ThirdWrapper = styled.div`
   width: 50%; 
   flex-direction: column;
   align-items: flex-start;
-  //justify-content: flex-start;
   box-sizing: border-box;
 `;
 
@@ -103,6 +104,7 @@ const MainTitleText = styled.p`
     margin-bottom: 0px;
     padding-bottom: 0px;
     color: #252a2f;
+    font-family: 'Pretendard-ExtraBold';
 `;
 
 const HighlightText = styled.span`
@@ -128,25 +130,39 @@ const CustomTextInput = styled(TextInput)`
     box-sizing: border-box; // padding을 포함한 높이로 설정
 `;
 
+const ButtonContainer1 = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
 const CustomButton1 = styled(Button)`
-  padding: 11px;
+  padding: 8px;
   color: #252a2f;
   height: auto;
   background: linear-gradient(to right, #d3e8f7, #e9dcf9);
   box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
-`
+`;
+
+const ButtonContainer2 = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  gap: 10px;
+`;
 
 const CustomButton2 = styled(Button)`
   padding: 11px;
   color: #252a2f;
   height: auto;
-  background: linear-gradient(to right, #d3e8f7, #e9dcf9);
-  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
+  background: white;
+  box-shadow: none;
   width: 25px;
-  height: 25px;
+  height: fit-content;
   margin-top: 20px;
-`
+  font-size: 20px;
+`;
 
 
 /* 본문 우측 */
@@ -165,6 +181,7 @@ const BoxText = styled.p`
   font-size: 16px;
   font-family: 'Pretendard-Medium';
   margin: 0;
+  color: #252a2f;
 `;
 
 
@@ -195,7 +212,7 @@ const Message = styled.p`
   width: 368px;
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
 
   @keyframes fadeInOut {
     0%, 100% { opacity: 0; }
@@ -275,20 +292,24 @@ const SpecPage = () => {
           <SecondWrapper>
             <ThirdWrapper>
               <GuideText> ☝🏻 이미지를 업로드해주세요 </GuideText>
-                <ImgUpload onFileSelect={(file) => console.log(file)} />
+              <ImgUpload onFileSelect={(file) => console.log(file)} />
               <GuideText> ✌🏻 발명품에 대한 설명을 해주세요 </GuideText>
-                <CustomTextInput placeholder="텍스트를 입력해주세요"/>
+              <CustomTextInput placeholder="텍스트를 입력해주세요"/>
+              <ButtonContainer1>
                   <CustomButton1 title='작성 요청하기' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
                       {/* 로딩 상태가 true일 때만 LoadingOverlay 컴포넌트를 렌더링 */}
                 {isLoading && <LoadingOverlay />}
+              </ButtonContainer1> 
             </ThirdWrapper>
             <FourthWrapper>
-              <GuideText>📝 PAPA가 작성한 초안이에요</GuideText>
+              <GuideText>📜 PAPA가 작성한 초안이에요</GuideText>
               <Box>
                 <BoxText>여기에 이제 반환받은 명세서를 넣을거에요........</BoxText>
               </Box>
-              <CustomButton2 title='📋' />
-              <CustomButton2 title='🔃' />
+              <ButtonContainer2>
+                  <CustomButton2 title='📋' />
+                  <CustomButton2 title='🔃' />
+              </ButtonContainer2>
             </FourthWrapper>
           </SecondWrapper>
       </Wrapper>

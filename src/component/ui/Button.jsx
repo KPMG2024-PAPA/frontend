@@ -11,11 +11,11 @@ const StyledButton = styled.button`
     height: 32px;
     cursor: pointer;
     align-items: center;
-    background: linear-gradient(to right, #9dbdeb, #7f85d8);
+    //background: linear-gradient(to right, #9dbdeb, #7f85d8);
     color: white;
     justify-content: center;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Pretendard-Extrabold', sans-serif;
+    font-family: 'Pretendard-Extrabold';
 `;
 
 

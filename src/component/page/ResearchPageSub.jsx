@@ -21,21 +21,21 @@ const AllGlobalStyle = createGlobalStyle`
  
 /* 레이아웃 코드 */
 const Wrapper = styled.div`
-  padding: 30px;
+  padding-left: 180px;
+  padding-right: 180px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: auto;
-  padding-top: 20px;
 `;
 
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 1800px;
+  width: 80%;
   padding-top: 30px;
-  gap: 20px;
 `;
 
 const NewsWrapper = styled.div`
@@ -44,7 +44,7 @@ const NewsWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding-top: 10px;
-  width: 85%;
+  width: 100%;
 `;
 
 const PaperWrapper = styled.div`
@@ -53,11 +53,10 @@ const PaperWrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding-top: 10px;
-  width: 85%;
+  width: 100%;
 `;
 
 
-/* 상단바- 선택된 페이지 버튼*/
 const HeaderBox = styled.div`
     border-radius: 15px;
     display: flex;
@@ -66,7 +65,6 @@ const HeaderBox = styled.div`
     align-items: center;
     height: 40px; /* 높이 조정 */
     width: 100px;
-    background: #dcdcdc;
     margin-left: 5px;
     margin-right: 5px;
 `;
@@ -75,6 +73,14 @@ const HeaderBoxText = styled.p`
   font-size: 16px;
   text-align: center;
   color: #252a2f;
+  font-family: 'Pretendard-ExtraBold';
+`;
+
+const HeaderBoxTextNone = styled.p`
+  font-size: 16px;
+  text-align: center;
+  color: #8c8c8c;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const ClickableBox = styled(HeaderBox)`
@@ -87,36 +93,6 @@ const ClickableBox = styled(HeaderBox)`
 
 
 
-/* 상단바- 선택되지 않은 페이지 */
-const HeaderBoxNone = styled.div`
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 40px; /* 높이 조정 */
-    width: 100px;
-    background-color: #3d3d3d;
-    margin-left: 5px;
-    margin-right: 5px;
-`;
-
-const HeaderBoxTextNone = styled.p`
-  font-size: 16px;
-  text-align: center;
-  color: #8c8c8c;
-  /* justify-content와 align-items 제거 */
-`;
-
-const ClickableBoxNone = styled(HeaderBoxNone)`
-  cursor: pointer;
-  transition: background-color 0.3s ease; // 배경 색상 변화에 애니메이션 효과를 추가합니다.
-  &:hover {
-    background-color: #dcdcdc; // 여기서 원하는 색상으로 바꿉니다.
-  }
-`;
-
-
 
 /* 페이지 제목 */
 const MainTitleText = styled.p`
@@ -125,11 +101,13 @@ const MainTitleText = styled.p`
     text-align: center;
     margin-bottom: 0px;
     padding-bottom: 0px;
+    color: #252a2f;
+    font-family: 'Pretendard-ExtraBold';
 `;
 
 const HighlightText = styled.span`
-    color: #FFFFFF;
-    background: linear-gradient(to right, #9dbdeb, #7f85d8);
+    color: #252a2f;
+    background: linear-gradient(to right, #d3e8f7, #e9dcf9);
     border-radius: 15px;
     padding-left: 10px;
     padding-right: 10px;
@@ -223,12 +201,12 @@ const ResearchPageSub = () => {
       <AllGlobalStyle />
       <HeaderComponent>
         {/* HeaderComponent의 RightContainer에 들어갈 내용을 children으로 전달 */}
-        <ClickableBoxNone onClick={() => navigateTo('/spec-page')}>
+        <ClickableBox onClick={() => navigateTo('/spec-page')}>
           <HeaderBoxTextNone>명세서 작성</HeaderBoxTextNone>
-        </ClickableBoxNone>
-        <ClickableBoxNone onClick={() => navigateTo('/sim-page')}>
+        </ClickableBox>
+        <ClickableBox onClick={() => navigateTo('/sim-page')}>
           <HeaderBoxTextNone>유사도 분석</HeaderBoxTextNone>
-        </ClickableBoxNone>
+        </ClickableBox>
         <ClickableBox onClick={() => navigateTo('/research-page-main')}>
           <HeaderBoxText>연구동향</HeaderBoxText>
         </ClickableBox>

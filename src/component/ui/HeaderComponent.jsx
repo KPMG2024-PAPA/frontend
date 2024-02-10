@@ -49,6 +49,7 @@ const HeaderText = styled.p`
   font-size: 12px;
   color: #252a2f;
   margin-left: 5px;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const HeaderComponent = ({ children }) => {
@@ -63,7 +64,7 @@ const HeaderComponent = ({ children }) => {
         <ClickableBoxLogo onClick={() => navigateTo('/')}>
           <HeaderLogoImage src={process.env.PUBLIC_URL + '/logo/logoimg.png'}/>
         </ClickableBoxLogo>
-        <HeaderText>All-in-one 특허 출원 보조 서비스</HeaderText>
+        <HeaderText>Patent Assistant Productivity Accelerator</HeaderText>
       </LeftContainer>
       <RightContainer>
         {children} {/* RightContainer의 내용을 동적으로 받아서 렌더링 */}

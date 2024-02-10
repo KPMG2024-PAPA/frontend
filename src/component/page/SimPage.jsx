@@ -23,19 +23,21 @@ const AllGlobalStyle = createGlobalStyle`
  
 /* 레이아웃 코드 */
 const Wrapper = styled.div`
-  padding: 30px;
+  padding-left: 180px;
+  padding-right: 180px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   height: auto;
-  padding-top: 20px;
 `;
 
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 85%;
+  align-items: center;
+  width: 80%;
   height: 130px;
   padding-top: 60px;
   gap: 20px;
@@ -61,7 +63,6 @@ const HeaderBox = styled.div`
     align-items: center;
     height: 40px; /* 높이 조정 */
     width: 100px;
-    background: #dcdcdc;
     margin-left: 5px;
     margin-right: 5px;
 `;
@@ -70,6 +71,12 @@ const HeaderBoxText = styled.p`
   font-size: 16px;
   text-align: center;
   color: #252a2f;
+`;
+
+const HeaderBoxTextNone = styled.p`
+  font-size: 16px;
+  text-align: center;
+  color: #8c8c8c;
 `;
 
 const ClickableBox = styled(HeaderBox)`
@@ -82,36 +89,6 @@ const ClickableBox = styled(HeaderBox)`
 
 
 
-/* 상단바- 선택되지 않은 페이지 */
-const HeaderBoxNone = styled.div`
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 40px; /* 높이 조정 */
-    width: 100px;
-    background-color: #3d3d3d;
-    margin-left: 5px;
-    margin-right: 5px;
-`;
-
-const HeaderBoxTextNone = styled.p`
-  font-size: 16px;
-  text-align: center;
-  color: #8c8c8c;
-  /* justify-content와 align-items 제거 */
-`;
-
-const ClickableBoxNone = styled(HeaderBoxNone)`
-  cursor: pointer;
-  transition: background-color 0.3s ease; // 배경 색상 변화에 애니메이션 효과를 추가합니다.
-  &:hover {
-    background-color: #dcdcdc; // 여기서 원하는 색상으로 바꿉니다.
-  }
-`;
-
-
 
 /* 페이지 제목 */
 const MainTitleText = styled.p`
@@ -120,11 +97,13 @@ const MainTitleText = styled.p`
     text-align: center;
     margin-bottom: 0px;
     padding-bottom: 0px;
+    color: #252a2f;
+    font-family: 'Pretendard-ExtraBold';
 `;
 
 const HighlightText = styled.span`
-    color: #FFFFFF;
-    background: linear-gradient(to right, #9dbdeb, #7f85d8);
+    color: #252a2f;
+    background: linear-gradient(to right, #d3e8f7, #e9dcf9);
     border-radius: 15px;
     padding-left: 10px;
     padding-right: 10px;
@@ -150,11 +129,11 @@ const CustomButton = styled(Button)`
   height: 100%;
   cursor: pointer;
   align-items: center;
-  background: linear-gradient(to right, #9dbdeb, #7f85d8);
+  background: linear-gradient(to right, #d3e8f7, #e9dcf9);
   color: white;
   justify-content: center;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
-  font-family: 'Pretendard', sans-serif;
+  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const CustomTextInput = styled(TextInput)`
@@ -199,7 +178,7 @@ const Message = styled.p`
   width: 368px;
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
 
   @keyframes fadeInOut {
     0%, 100% { opacity: 0; }
@@ -305,18 +284,18 @@ const SimPage = () => {
       <AllGlobalStyle />
       <HeaderComponent>
         {/* HeaderComponent의 RightContainer에 들어갈 내용을 children으로 전달 */}
-        <ClickableBoxNone onClick={() => navigateTo('/spec-page')}>
+        <ClickableBox onClick={() => navigateTo('/spec-page')}>
           <HeaderBoxTextNone>명세서 작성</HeaderBoxTextNone>
-        </ClickableBoxNone>
+        </ClickableBox>
         <ClickableBox onClick={() => navigateTo('/sim-page')}>
           <HeaderBoxText>유사도 분석</HeaderBoxText>
         </ClickableBox>
-        <ClickableBoxNone onClick={() => navigateTo('/research-page-main')}>
+        <ClickableBox onClick={() => navigateTo('/research-page-main')}>
           <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
-        </ClickableBoxNone>
+        </ClickableBox>
       </HeaderComponent>
       <Wrapper>
-          <MainTitleText>🧐 <HighlightText>유사도 분석</HighlightText> 을 도와드릴게요</MainTitleText>
+          <MainTitleText>📈 <HighlightText>유사도 분석</HighlightText> 을 도와드릴게요</MainTitleText>
           <GuideText>* 현재 서비스는 한국/미국/중국/일본/유럽 다섯 국가의 특허 정보만 제공하고 있습니다</GuideText>
           <SecondWrapper>
             <CustomTextInput placeholder="텍스트를 입력해주세요"/>
