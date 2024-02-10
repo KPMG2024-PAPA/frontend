@@ -10,11 +10,13 @@ import Button from '../ui/Button';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: 'Pretendard';
+    font-family: 'Pretendard-ExtraBold';
     src: url('/font/Pretendard-ExtraBold.ttf') format('truetype');
+    font-family: 'Pretendard-Medium';
+    src: url('/font/Pretendard-Medium.ttf') format('truetype');
   }
     body {
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard-ExtraBold', sans-serif;
     }
  `;
 
@@ -70,6 +72,7 @@ const Header = styled.div`
 const LeftContainer = styled.div`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   margin-left: 10px;
 `;
 
@@ -98,6 +101,12 @@ const HeaderLogoText = styled.p`
 
 const ClickableBoxLogo = styled(HeaderLogo)`
   cursor: pointer;
+`;
+
+const HeaderText = styled.p`
+  font-size: 12px;
+  color: white;
+  margin-left: 5px;
 `;
 
 
@@ -195,15 +204,17 @@ const ButtonContainer = styled.p`
   align-items: right;
 `;
 
+const CustomTextInput = styled(TextInput)`
+    height: 300px;
+    box-sizing: border-box; // padding을 포함한 높이로 설정
+`;
+
+
 /* 본문 우측 */
 const Box = styled.div`
-    font-size: 30px;
-    padding-left: 15px;
+    padding: 30px;
     background-color: white;
     border-radius: 15px;
-    //display: flex;
-    //flex-direction: column;
-    //justify-content: center;
     align-items: left;
     min-height: 400px;
     width: 100%;
@@ -212,8 +223,8 @@ const Box = styled.div`
 
 const BoxText = styled.p`
   font-size: 16px;
-  text-align: left;
   font-family: 'Pretendard-Medium';
+  margin: 0;
 `;
 
 
@@ -313,6 +324,7 @@ const SpecPage = () => {
           <ClickableBoxLogo onClick={() => navigateTo('/')}>
             <HeaderLogoText>PAPA</HeaderLogoText>
           </ClickableBoxLogo>
+          <HeaderText>All-in-one 특허 출원 보조 서비스</HeaderText>
         </LeftContainer>
         <RightContainer>
           <ClickableBox onClick={() => navigateTo('/spec-page')}>
@@ -333,7 +345,7 @@ const SpecPage = () => {
               <GuideText> ☝🏻 이미지를 업로드해주세요 </GuideText>
                 <ImgUpload onFileSelect={(file) => console.log(file)} />
               <GuideText> ✌🏻 발명품에 대한 설명을 해주세요 </GuideText>
-                <TextInput></TextInput>
+                <CustomTextInput placeholder="텍스트를 입력해주세요"/>
                 <ButtonContainer>
                   <Button title='작성 요청하기' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
                 </ButtonContainer>

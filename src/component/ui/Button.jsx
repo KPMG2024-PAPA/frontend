@@ -15,7 +15,7 @@ const StyledButton = styled.button`
     color: white;
     justify-content: center;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard-Extrabold', sans-serif;
 `;
 
 
