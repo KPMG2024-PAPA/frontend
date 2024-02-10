@@ -30,27 +30,29 @@ const Wrapper = styled.div`
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  //justify-content: space-around; /* Adjust horizontal alignment as needed */
   height: auto;
   padding-top: 60px;
   padding-left: 60px;
+  padding-right: 60px; // 오른쪽 패딩도 추가하여 균형을 맞추어 줍니다.
 `;
 
 const ThirdWrapper = styled.div`
   display: flex;
-  width: 45%;
+  width: 50%; // 너비를 50%로 설정
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  box-sizing: border-box; // 패딩과 테두리를 너비 계산에 포함
 `;
 
 const FourthWrapper = styled.div`
   display: flex;
-  width: 45%;
+  width: 50%; // 너비를 50%로 설정
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding-left: 30px;
+  padding-left: 30px; // 필요에 따라 조정
+  box-sizing: border-box; // 패딩과 테두리를 너비 계산에 포함
 `;
 
 
