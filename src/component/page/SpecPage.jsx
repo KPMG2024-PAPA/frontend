@@ -24,21 +24,19 @@ const AllGlobalStyle = createGlobalStyle`
  
 /* 레이아웃 코드 */
 const Wrapper = styled.div`
-  padding: 30px;
+  padding-left: 180px;
+  padding-right: 180px;
   display: flex;
   flex-direction: column;
   height: auto;
-  padding-top: 20px;
 `;
 
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: auto;
+  height: 700px;
   padding-top: 60px;
-  padding-left: 180px;
-  padding-right: 180px;
   gap: 50px;
 `;
 
@@ -47,7 +45,7 @@ const ThirdWrapper = styled.div`
   width: 50%; 
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-start;
+  //justify-content: flex-start;
   box-sizing: border-box;
 `;
 
@@ -71,7 +69,6 @@ const HeaderBox = styled.div`
     align-items: center;
     height: 40px; /* 높이 조정 */
     width: 100px;
-    background: #dcdcdc;
     margin-left: 5px;
     margin-right: 5px;
 `;
@@ -80,6 +77,12 @@ const HeaderBoxText = styled.p`
   font-size: 16px;
   text-align: center;
   color: #252a2f;
+`;
+
+const HeaderBoxTextNone = styled.p`
+  font-size: 16px;
+  text-align: center;
+  color: #8c8c8c;
 `;
 
 const ClickableBox = styled(HeaderBox)`
@@ -92,37 +95,6 @@ const ClickableBox = styled(HeaderBox)`
 
 
 
-/* 상단바- 선택되지 않은 페이지 */
-const HeaderBoxNone = styled.div`
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 40px; /* 높이 조정 */
-    width: 100px;
-    background-color: #3d3d3d;
-    margin-left: 5px;
-    margin-right: 5px;
-`;
-
-const HeaderBoxTextNone = styled.p`
-  font-size: 16px;
-  text-align: center;
-  color: #8c8c8c;
-  /* justify-content와 align-items 제거 */
-`;
-
-const ClickableBoxNone = styled(HeaderBoxNone)`
-  cursor: pointer;
-  transition: background-color 0.3s ease; // 배경 색상 변화에 애니메이션 효과를 추가합니다.
-  &:hover {
-    background-color: #dcdcdc; // 여기서 원하는 색상으로 바꿉니다.
-  }
-`;
-
-
-
 /* 페이지 제목 */
 const MainTitleText = styled.p`
     font-size: 46px;
@@ -130,11 +102,12 @@ const MainTitleText = styled.p`
     text-align: center;
     margin-bottom: 0px;
     padding-bottom: 0px;
+    color: #252a2f;
 `;
 
 const HighlightText = styled.span`
-    color: #FFFFFF;
-    background: linear-gradient(to right, #9dbdeb, #7f85d8);
+    color: #252a2f;
+    background: linear-gradient(to right, #d3e8f7, #e9dcf9);
     border-radius: 15px;
     padding-left: 10px;
     padding-right: 10px;
@@ -150,16 +123,30 @@ const GuideText = styled.p`
   //border-radius: 15px;
 `;
 
-const ButtonContainer = styled.p`
-  padding-top: 5px;
-  justify-content: right;
-  align-items: right;
-`;
-
 const CustomTextInput = styled(TextInput)`
     height: 300px;
     box-sizing: border-box; // padding을 포함한 높이로 설정
 `;
+
+const CustomButton1 = styled(Button)`
+  padding: 11px;
+  color: #252a2f;
+  height: auto;
+  background: linear-gradient(to right, #d3e8f7, #e9dcf9);
+  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+`
+
+const CustomButton2 = styled(Button)`
+  padding: 11px;
+  color: #252a2f;
+  height: auto;
+  background: linear-gradient(to right, #d3e8f7, #e9dcf9);
+  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
+  width: 25px;
+  height: 25px;
+  margin-top: 20px;
+`
 
 
 /* 본문 우측 */
@@ -170,7 +157,7 @@ const Box = styled.div`
     align-items: left;
     height: 100%;
     width: 100%;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
 `;
 
@@ -276,12 +263,12 @@ const SpecPage = () => {
           <ClickableBox onClick={() => navigateTo('/spec-page')}>
             <HeaderBoxText>명세서 작성</HeaderBoxText>
           </ClickableBox>
-          <ClickableBoxNone onClick={() => navigateTo('/sim-page')}>
+          <ClickableBox onClick={() => navigateTo('/sim-page')}>
             <HeaderBoxTextNone>유사도 분석</HeaderBoxTextNone>
-          </ClickableBoxNone>
-          <ClickableBoxNone onClick={() => navigateTo('/research-page-main')}>
+          </ClickableBox>
+          <ClickableBox onClick={() => navigateTo('/research-page-main')}>
             <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
-          </ClickableBoxNone>
+          </ClickableBox>
       </HeaderComponent>
       <Wrapper>
           <MainTitleText>✍🏻 <HighlightText>명세서 작성</HighlightText> 을 도와드릴게요</MainTitleText>
@@ -291,17 +278,17 @@ const SpecPage = () => {
                 <ImgUpload onFileSelect={(file) => console.log(file)} />
               <GuideText> ✌🏻 발명품에 대한 설명을 해주세요 </GuideText>
                 <CustomTextInput placeholder="텍스트를 입력해주세요"/>
-                <ButtonContainer>
-                  <Button title='작성 요청하기' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
-                </ButtonContainer>
+                  <CustomButton1 title='작성 요청하기' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
                       {/* 로딩 상태가 true일 때만 LoadingOverlay 컴포넌트를 렌더링 */}
                 {isLoading && <LoadingOverlay />}
             </ThirdWrapper>
             <FourthWrapper>
               <GuideText>📝 PAPA가 작성한 초안이에요</GuideText>
               <Box>
-                <BoxText>여기에 이제 반환받은 명세서를 넣을거에요 미친것....</BoxText>
+                <BoxText>여기에 이제 반환받은 명세서를 넣을거에요........</BoxText>
               </Box>
+              <CustomButton2 title='📋' />
+              <CustomButton2 title='🔃' />
             </FourthWrapper>
           </SecondWrapper>
       </Wrapper>
