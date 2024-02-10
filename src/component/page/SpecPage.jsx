@@ -34,33 +34,33 @@ const SecondWrapper = styled.div`
   height: auto;
   padding-top: 60px;
   padding-left: 60px;
-  padding-right: 60px; // 오른쪽 패딩도 추가하여 균형을 맞추어 줍니다.
+  padding-right: 60px;
 `;
 
 const ThirdWrapper = styled.div`
   display: flex;
-  width: 50%; // 너비를 50%로 설정
+  width: 50%; 
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  box-sizing: border-box; // 패딩과 테두리를 너비 계산에 포함
+  box-sizing: border-box;
 `;
 
 const FourthWrapper = styled.div`
   display: flex;
-  width: 50%; // 너비를 50%로 설정
+  width: 50%;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding-left: 30px; // 필요에 따라 조정
-  box-sizing: border-box; // 패딩과 테두리를 너비 계산에 포함
+  padding-left: 30px;
+  box-sizing: border-box;
 `;
 
 
 /* 상단바- 레이아웃 코드 */
 const Header = styled.div`
   display: flex;
-  justify-content: space-between; /* 왼쪽과 오른쪽 컨테이너 사이의 공간을 최대로 확장 */
+  justify-content: space-between;
   align-items: center;
   height: 60px;
   background-color: #252a2f;
@@ -85,7 +85,7 @@ const HeaderLogo = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 40px; /* 높이 조정 */
+    height: 40px;
     width: 100px;
     background: linear-gradient(to right, #9dbdeb, #7f85d8);
     margin-left: 5px;
@@ -101,7 +101,7 @@ const ClickableBoxLogo = styled(HeaderLogo)`
 `;
 
 
-/* 상단바- 선택된 페이지 버튼 코드 */
+/* 상단바- 선택된 페이지 버튼*/
 const HeaderBox = styled.div`
     border-radius: 15px;
     display: flex;
@@ -119,20 +119,19 @@ const HeaderBoxText = styled.p`
   font-size: 16px;
   text-align: center;
   color: #252a2f;
-  /* justify-content와 align-items 제거 */
 `;
 
 const ClickableBox = styled(HeaderBox)`
   cursor: pointer;
-  transition: background-color 0.3s ease; // 배경 색상 변화에 애니메이션 효과를 추가합니다.
+  transition: background-color 0.3s ease;
   &:hover {
-    background-color: #9dbdeb; // 여기서 원하는 색상으로 바꿉니다.
+    background-color: #dcdcdc;
   }
 `;
 
 
 
-/* 상단바- 선택되지 않은 페이지 코드 */
+/* 상단바- 선택되지 않은 페이지 */
 const HeaderBoxNone = styled.div`
     border-radius: 15px;
     display: flex;
@@ -234,7 +233,7 @@ const Overlay = styled.div`
 
 
 const Message = styled.p`
-  color: white;
+  color: #d0d0d0;
   display: flex;
   flex-direction: column;
   font-size: 24px; // 수정됨
@@ -242,8 +241,10 @@ const Message = styled.p`
   align-items: center;
   animation: fadeInOut 4s infinite; // 4초 동안 무한 반복
   background-color:  rgba(0, 0, 0, 0.3);
+  width: 368px;
   padding: 20px;
   border-radius: 15px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
 
   @keyframes fadeInOut {
     0%, 100% { opacity: 0; }

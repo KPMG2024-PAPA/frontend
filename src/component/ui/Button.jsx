@@ -15,17 +15,15 @@ const StyledButton = styled.button`
     color: white;
     justify-content: center;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Pretendard', sans-serif; /* NanumNeo 폰트를 적용 */
+    font-family: 'Pretendard', sans-serif;
 `;
 
 
 
 
 
-function Button(props) {
-    const { title, onClick } = props;
-    
-    return <StyledButton onClick={onClick}>{title || "button"}</StyledButton>;
+function Button({ title, onClick, className }) {
+    return <StyledButton className={className} onClick={onClick}>{title || "button"}</StyledButton>;
 }
 
 export default Button;

@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const UploadArea = styled.div`
-  border: 2px dashed #e8e8e8;
+  //border: 2px dashed #e8e8e8;
   border-radius: 15px;
   display: flex;
   flex-direction: column;
@@ -24,6 +24,7 @@ const UploadArea = styled.div`
   min-width: 50%;
   height: 100px;
   box-sizing: border-box;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const HiddenInput = styled.input`
