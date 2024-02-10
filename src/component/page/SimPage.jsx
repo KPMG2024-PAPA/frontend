@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
 import Table from '../ui/Table';
+import HeaderComponent from '../ui/HeaderComponent';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -49,58 +50,6 @@ const ThirdWrapper = styled.div`
   justify-content: flex-start;
   box-sizing: border-box;
 `;
-
-
-/* 상단바- 레이아웃 코드 */
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  background-color: #252a2f;
-  color: white;
-`;
-
-const LeftContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-left: 10px;
-`;
-
-const RightContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-/* 상단바- 왼쪽 로고 코드  */
-const HeaderLogo = styled.div`
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    width: 100px;
-    background: linear-gradient(to right, #9dbdeb, #7f85d8);
-    margin-left: 5px;
-    margin-right: 5px;
-`;
-
-const HeaderLogoText = styled.p`
-  font-size: 27px;
-`;
-
-const ClickableBoxLogo = styled(HeaderLogo)`
-  cursor: pointer;
-`;
-
-const HeaderText = styled.p`
-  font-size: 12px;
-  color: white;
-  margin-left: 5px;
-`;
-
 
 
 /* 상단바- 선택된 페이지 버튼*/
@@ -354,25 +303,18 @@ const SimPage = () => {
   return (
     <div>
       <AllGlobalStyle />
-      <Header>
-      <LeftContainer>
-          <ClickableBoxLogo onClick={() => navigateTo('/')}>
-            <HeaderLogoText>PAPA</HeaderLogoText>
-          </ClickableBoxLogo>
-          <HeaderText>All-in-one 특허 출원 보조 서비스</HeaderText>
-        </LeftContainer>
-        <RightContainer>
-          <ClickableBoxNone onClick={() => navigateTo('/spec-page')}>
-            <HeaderBoxTextNone>명세서 작성</HeaderBoxTextNone>
-          </ClickableBoxNone>
-          <ClickableBox onClick={() => navigateTo('/sim-page')}>
-            <HeaderBoxText>유사도 분석</HeaderBoxText>
-          </ClickableBox>
-          <ClickableBoxNone onClick={() => navigateTo('/research-page-main')}>
-            <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
-          </ClickableBoxNone>
-        </RightContainer>
-      </Header>
+      <HeaderComponent>
+        {/* HeaderComponent의 RightContainer에 들어갈 내용을 children으로 전달 */}
+        <ClickableBoxNone onClick={() => navigateTo('/spec-page')}>
+          <HeaderBoxTextNone>명세서 작성</HeaderBoxTextNone>
+        </ClickableBoxNone>
+        <ClickableBox onClick={() => navigateTo('/sim-page')}>
+          <HeaderBoxText>유사도 분석</HeaderBoxText>
+        </ClickableBox>
+        <ClickableBoxNone onClick={() => navigateTo('/research-page-main')}>
+          <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
+        </ClickableBoxNone>
+      </HeaderComponent>
       <Wrapper>
           <MainTitleText>🧐 <HighlightText>유사도 분석</HighlightText> 을 도와드릴게요</MainTitleText>
           <GuideText>* 현재 서비스는 한국/미국/중국/일본/유럽 다섯 국가의 특허 정보만 제공하고 있습니다</GuideText>

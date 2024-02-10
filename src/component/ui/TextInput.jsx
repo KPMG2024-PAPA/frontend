@@ -7,7 +7,7 @@ const StyledTextarea = styled.textarea`
     line-height: 20px;
     border-radius: 15px;
     height: 100%;
-    width: 85%;
+    width: 100%;
     outline: none;
     border: none;
     resize: none;

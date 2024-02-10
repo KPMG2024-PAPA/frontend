@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
+import HeaderComponent from '../ui/HeaderComponent';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -65,46 +66,6 @@ const Header = styled.div`
   color: white;
 `;
 
-const LeftContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-left: 10px;
-`;
-
-const RightContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-/* 상단바- 왼쪽 로고 코드  */
-const HeaderLogo = styled.div`
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    width: 100px;
-    background: linear-gradient(to right, #9dbdeb, #7f85d8);
-    margin-left: 5px;
-    margin-right: 5px;
-`;
-
-const HeaderLogoText = styled.p`
-  font-size: 27px;
-`;
-
-const ClickableBoxLogo = styled(HeaderLogo)`
-  cursor: pointer;
-`;
-
-const HeaderText = styled.p`
-  font-size: 12px;
-  color: white;
-  margin-left: 5px;
-`;
-
 
 
 /* 상단바- 선택된 페이지 버튼*/
@@ -134,7 +95,6 @@ const ClickableBox = styled(HeaderBox)`
     background-color: #dcdcdc;
   }
 `;
-
 
 
 /* 상단바- 선택되지 않은 페이지 */
@@ -335,25 +295,18 @@ const ResearchPageMain = () => {
   return (
     <div>
       <AllGlobalStyle />
-      <Header>
-        <LeftContainer>
-          <ClickableBoxLogo onClick={() => navigateTo('/')}>
-            <HeaderLogoText>PAPA</HeaderLogoText>
-          </ClickableBoxLogo>
-          <HeaderText>All-in-one 특허 출원 보조 서비스</HeaderText>
-        </LeftContainer>
-        <RightContainer>
-          <ClickableBoxNone onClick={() => navigateTo('/spec-page')}>
-            <HeaderBoxTextNone>명세서 작성</HeaderBoxTextNone>
-          </ClickableBoxNone>
-          <ClickableBoxNone onClick={() => navigateTo('/sim-page')}>
-            <HeaderBoxTextNone>유사도 분석</HeaderBoxTextNone>
-          </ClickableBoxNone>
-          <ClickableBox onClick={() => navigateTo('/research-page-main')}>
-            <HeaderBoxText>연구동향</HeaderBoxText>
-          </ClickableBox>
-        </RightContainer>
-      </Header>
+      <HeaderComponent>
+        {/* HeaderComponent의 RightContainer에 들어갈 내용을 children으로 전달 */}
+        <ClickableBoxNone onClick={() => navigateTo('/spec-page')}>
+          <HeaderBoxTextNone>명세서 작성</HeaderBoxTextNone>
+        </ClickableBoxNone>
+        <ClickableBoxNone onClick={() => navigateTo('/sim-page')}>
+          <HeaderBoxTextNone>유사도 분석</HeaderBoxTextNone>
+        </ClickableBoxNone>
+        <ClickableBox onClick={() => navigateTo('/research-page-main')}>
+          <HeaderBoxText>연구동향</HeaderBoxText>
+        </ClickableBox>
+      </HeaderComponent>
       <Wrapper>
           <MainTitleText>🔍 <HighlightText>연구동향 리서치</HighlightText> 를 도와드릴게요</MainTitleText>
           <SecondWrapper>

@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import ImgUpload from '../ui/ImgUpload';
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
+import HeaderComponent from '../ui/HeaderComponent'; 
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -33,10 +34,12 @@ const Wrapper = styled.div`
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   height: auto;
   padding-top: 60px;
-  padding-left: 60px;
-  padding-right: 60px;
+  padding-left: 180px;
+  padding-right: 180px;
+  gap: 50px;
 `;
 
 const ThirdWrapper = styled.div`
@@ -54,60 +57,9 @@ const FourthWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  padding-left: 30px;
   box-sizing: border-box;
 `;
 
-
-/* 상단바- 레이아웃 코드 */
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  background-color: #252a2f;
-  color: white;
-`;
-
-const LeftContainer = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-left: 10px;
-`;
-
-const RightContainer = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-/* 상단바- 왼쪽 로고 코드  */
-const HeaderLogo = styled.div`
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    width: 100px;
-    background: linear-gradient(to right, #9dbdeb, #7f85d8);
-    margin-left: 5px;
-    margin-right: 5px;
-`;
-
-const HeaderLogoText = styled.p`
-  font-size: 27px;
-`;
-
-const ClickableBoxLogo = styled(HeaderLogo)`
-  cursor: pointer;
-`;
-
-const HeaderText = styled.p`
-  font-size: 12px;
-  color: white;
-  margin-left: 5px;
-`;
 
 
 /* 상단바- 선택된 페이지 버튼*/
@@ -216,9 +168,10 @@ const Box = styled.div`
     background-color: white;
     border-radius: 15px;
     align-items: left;
-    min-height: 400px;
+    height: 100%;
     width: 100%;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    box-sizing: border-box;
 `;
 
 const BoxText = styled.p`
@@ -319,14 +272,7 @@ const SpecPage = () => {
   return (
     <div>
       <AllGlobalStyle />
-      <Header>
-      <LeftContainer>
-          <ClickableBoxLogo onClick={() => navigateTo('/')}>
-            <HeaderLogoText>PAPA</HeaderLogoText>
-          </ClickableBoxLogo>
-          <HeaderText>All-in-one 특허 출원 보조 서비스</HeaderText>
-        </LeftContainer>
-        <RightContainer>
+      <HeaderComponent>
           <ClickableBox onClick={() => navigateTo('/spec-page')}>
             <HeaderBoxText>명세서 작성</HeaderBoxText>
           </ClickableBox>
@@ -336,8 +282,7 @@ const SpecPage = () => {
           <ClickableBoxNone onClick={() => navigateTo('/research-page-main')}>
             <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
           </ClickableBoxNone>
-        </RightContainer>
-      </Header>
+      </HeaderComponent>
       <Wrapper>
           <MainTitleText>✍🏻 <HighlightText>명세서 작성</HighlightText> 을 도와드릴게요</MainTitleText>
           <SecondWrapper>

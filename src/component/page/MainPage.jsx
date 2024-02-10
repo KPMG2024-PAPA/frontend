@@ -1,13 +1,14 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { createGlobalStyle} from 'styled-components';
+import HeaderComponent from '../ui/HeaderComponent';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Pretendard-ExtraBold';
     src: url('/font/Pretendard-ExtraBold.ttf') format('truetype');
-    font-family: 'Pretendard-Medium';
-    src: url('/font/Pretendard-Medium.ttf') format('truetype');
+    font-family: 'Pretendard-SemiBold';
+    src: url('/font/Pretendard-SemiBold.ttf') format('truetype');
   }
     body {
     font-family: 'Pretendard-ExtraBold', sans-serif;
@@ -19,35 +20,26 @@ const Wrapper = styled.div`
   padding: 30px;
   display: flex;
   flex-direction: column;
-  height: auto;
   padding-top: 50px;
 `;
 
 const SecondWrapper = styled.div`
-  padding: 30px;
+  padding-left: 18px;
+  padding-right: 18px;
   display: flex;
-  flex-direction: row; /* Change from 'column' to 'row' */
-  justify-content: space-around; /* Adjust horizontal alignment as needed */
+  flex-direction: row;
+  justify-content: center;
   height: auto;
   padding-top: 30px;
+  gap: 80px;
 `;
-
-const Header = styled.p`
-  height: 60px;
-  background-color: #252a2f;
-  color: white;
-  margin: 0px;
-  justify-content: center;
-  align-items: left;
-  `;
 
 // 제목 담당
 const MainTitleText = styled.p`
     font-size: 46px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 0px;
-    padding-bottom: 0px;
+    padding-top: 30px;
     font-family: 'Pretendard-ExtraBold';
 `;
 
@@ -61,30 +53,29 @@ const HighlightText = styled.span`
 `;
 
 const SubTitleText = styled.p`
-    font-size: 28px;
+    color: #252a2f;
+    font-size: 23px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: -5px;
-    padding-bottom: 60px;
+    padding-top: 30px;
 `;
 
+
 const BoxText = styled.p`
-  font-size: 25px;
+  font-size: 23px;
   text-align: center;
 `;
 
 
 const Box = styled.div`
     font-size: 30px;
-    padding-bottom: 30px;
     background-color: white;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 400px;
-    min-width: 420px;
+    width: 400px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
     font-family: 'Pretendard-ExtraBold';
 `;
@@ -93,7 +84,7 @@ const ClickableBox = styled(Box)`
   cursor: pointer;
   transition: background-color 0.3s ease; // 배경 색상 변화에 애니메이션 효과를 추가합니다.
   &:hover {
-    background-color: #dcdcdc; // 여기서 원하는 색상으로 바꿉니다.
+    background-color: #f8f8ef; // 여기서 원하는 색상으로 바꿉니다.
   }
 `;
 
@@ -110,9 +101,15 @@ const MainPage = () => {
   return (
     <div>
       <AllGlobalStyle />
-      <Header></Header>
+      <HeaderComponent />
       <Wrapper>
-          <MainTitleText>안녕하세요, <HighlightText>PAPA</HighlightText> 입니다</MainTitleText>
+          <MainTitleText>
+            <>
+            <div>안녕하세요,</div>
+            <div style={{paddingTop: '15px'}}>All-in-one 특허 출원 보조 서비스 </div>
+            <div style={{paddingTop: '15px'}}><HighlightText>PAPA</HighlightText> 입니다</div>
+            </>
+          </MainTitleText>
           <SubTitleText>원하시는 서비스를 클릭해주세요</SubTitleText>
         <SecondWrapper>
           <ClickableBox onClick={() => navigateTo('/spec-page')}>
