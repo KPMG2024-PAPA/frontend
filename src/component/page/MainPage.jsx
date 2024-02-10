@@ -10,7 +10,7 @@ const AllGlobalStyle = createGlobalStyle`
     src: url('/font/Pretendard-Medium.ttf') format('truetype');
   }
     body {
-    font-family: 'Pretendard', sans-serif;
+    font-family: 'Pretendard-ExtraBold', sans-serif;
     }
  `;
  
@@ -48,6 +48,7 @@ const MainTitleText = styled.p`
     text-align: center;
     margin-bottom: 0px;
     padding-bottom: 0px;
+    font-family: 'Pretendard-ExtraBold';
 `;
 
 const HighlightText = styled.span`
@@ -56,6 +57,7 @@ const HighlightText = styled.span`
     border-radius: 15px;
     padding-left: 10px;
     padding-right: 10px;
+    font-family: 'Pretendard-ExtraBold';
 `;
 
 const SubTitleText = styled.p`

@@ -6,7 +6,6 @@ import { useState, useEffect } from 'react';
 
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
-import Table from '../ui/Table';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -32,22 +31,27 @@ const Wrapper = styled.div`
 
 const SecondWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   width: 85%;
-  height: 130px;
-  padding-top: 60px;
-  gap: 20px;
+  padding-top: 30px;
 `;
 
 const ThirdWrapper = styled.div`
-  padding: 60px;
   display: flex;
-  width: 100%; 
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  box-sizing: border-box;
+  flex-direction: row;
+  justify-content: center;
+  padding-top: 10px;
+  width: 70%;
+`;
+
+const FourthWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 70%;
+  height: 130px;
+  gap: 20px;
 `;
 
 
@@ -191,6 +195,27 @@ const GuideText = styled.p`
   font-family: 'Pretendard-ExtraBold';
 `;
 
+
+const WordCloud = styled.img`
+  width: 60%; /* 원하는 너비 설정 */
+  height: auto; /* 높이를 auto로 설정하여 비율 유지 */
+  object-fit: contain; /* 컨테이너 내에서 비율 유지하며 맞춤 */
+`;
+
+
+/* 본문 하단 */
+const SubText = styled.p`
+  font-size: 20px;
+  text-align: center;
+  color: #252a2f;
+  font-family: 'Pretendard-ExtraBold';
+`;
+
+const CustomTextInput = styled(TextInput)`
+    height: 100%;
+    box-sizing: border-box; // padding을 포함한 높이로 설정
+`;
+
 const CustomButton = styled(Button)`
   padding: 7px 7px;
   font-size: 30px;
@@ -206,20 +231,6 @@ const CustomButton = styled(Button)`
   justify-content: center;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
   font-family: 'Pretendard', sans-serif;
-`;
-
-const CustomTextInput = styled(TextInput)`
-    height: 100%;
-    box-sizing: border-box; // padding을 포함한 높이로 설정
-`;
-
-/* 본문 하단 */
-const SubText = styled.p`
-  font-size: 25px;
-  padding-bottom: 20px;
-  text-align: center;
-  color: #252a2f;
-  font-family: 'Pretendard-ExtraBold';
 `;
 
 
@@ -266,22 +277,6 @@ const ResearchPageMain = () => {
     console.log(`${path} clicked!`);
     navigate(path);
   };
-  
-  // 테이블 컴포넌트에 사용할 컬럼명
-  const columns = React.useMemo(
-    () => [
-      { Header: '번호', accessor: 'number' },
-      {
-        Header: '국가',
-        accessor: 'country',
-        Cell: ({ value }) => <span style={{ fontSize: '27px' }}>{value}</span>,
-      },
-      { Header: '특허 이름', accessor: 'patentName' },
-      { Header: '유사도', accessor: 'similarity' },
-      { Header: '상세보기', accessor: 'detail'},
-    ],
-    []
-  );
 
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
 
@@ -319,11 +314,23 @@ const ResearchPageMain = () => {
     );
   };
 
+  // const handleButtonClick = () => {
+  //   setIsLoading(true);
+  //   {/* 버튼 클릭 시, 서버 전달 및 응답 요청*/}
+  //   {/*응답을 받으면 (false)로 설정 -> 로딩 화면을 비활성화*/}
+  //   {/*응답을 받으면 navigateTo('/research-page-sub')*/}
+  // };
+  
+  {/*임시코드*/}
   const handleButtonClick = () => {
     setIsLoading(true);
-    {/* 버튼 클릭 시, 서버 전달 및 응답 요청*/}
-    {/*응답을 받으면 (false)로 설정 -> 로딩 화면을 비활성화*/}
+  
+    setTimeout(() => {
+      setIsLoading(false);
+      navigateTo('/research-page-sub');
+    }, 6500); // 6.5초 후에 실행됩니다.
   };
+
 
   return (
     <div>
@@ -339,16 +346,28 @@ const ResearchPageMain = () => {
           <ClickableBoxNone onClick={() => navigateTo('/spec-page')}>
             <HeaderBoxTextNone>명세서 작성</HeaderBoxTextNone>
           </ClickableBoxNone>
-          <ClickableBox onClick={() => navigateTo('/sim-page')}>
-            <HeaderBoxText>유사도 분석</HeaderBoxText>
-          </ClickableBox>
-          <ClickableBoxNone onClick={() => navigateTo('/research-page-main')}>
-            <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
+          <ClickableBoxNone onClick={() => navigateTo('/sim-page')}>
+            <HeaderBoxTextNone>유사도 분석</HeaderBoxTextNone>
           </ClickableBoxNone>
+          <ClickableBox onClick={() => navigateTo('/research-page-main')}>
+            <HeaderBoxText>연구동향</HeaderBoxText>
+          </ClickableBox>
         </RightContainer>
       </Header>
       <Wrapper>
-          <MainTitleText>🧐 <HighlightText>연구동향 리서치</HighlightText> 를 도와드릴게요</MainTitleText>
+          <MainTitleText>🔍 <HighlightText>연구동향 리서치</HighlightText> 를 도와드릴게요</MainTitleText>
+          <SecondWrapper>
+            <WordCloud src={process.env.PUBLIC_URL + 'output.png'} />
+            <GuideText>* 최근 1년 간 등록된 특허 기준 / Update: 2024.02.11 00:00</GuideText>
+          </SecondWrapper>
+          <ThirdWrapper>
+            <SubText>아이디어를 입력해주시면, 관련 뉴스와 논문을 찾아드려요</SubText>
+          </ThirdWrapper>
+          <FourthWrapper>
+            <CustomTextInput placeholder="아이디어를 입력해주세요" />
+            <CustomButton title="👀" onClick={handleButtonClick} />
+              {isLoading && <LoadingOverlay />}
+          </FourthWrapper>
       </Wrapper>
     </div>
   );

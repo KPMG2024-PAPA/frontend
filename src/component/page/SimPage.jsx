@@ -215,7 +215,7 @@ const CustomTextInput = styled(TextInput)`
 
 /* 본문 하단 */
 const SubText = styled.p`
-  font-size: 25px;
+  font-size: 20px;
   padding-bottom: 20px;
   text-align: center;
   color: #252a2f;
