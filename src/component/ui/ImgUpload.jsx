@@ -12,9 +12,11 @@ const UploadArea = styled.div`
   border: 2px dashed #e8e8e8;
   border-radius: 15px;
   display: flex;
+  flex-direction: column;
   cursor: pointer;
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center; /* 수직 중앙 정렬 */
+  color: green;
   transition: background-color 0.3s ease;
   &:hover {
     background-color: #dcdcdc;
@@ -39,13 +41,13 @@ const PreviewContainer = styled.div`
 const PreviewImage = styled.img`
   max-width: 300px; // 이미지 최대 너비 조정
   max-height: 200px; // 이미지 최대 높이 조정
-  border-radius: 10px; // 이미지 둥근 모서리 추가
+  //border-radius: 10px; // 이미지 둥근 모서리 추가
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
 `;
 
 const FileName = styled.p`
   font-size: 10px;
-  color: #333;
+  color: #252a2f;
 `;
 
 const ImgUpload = ({ onFileSelect }) => {
@@ -55,19 +57,24 @@ const ImgUpload = ({ onFileSelect }) => {
   const fileInputRef = useRef(null);
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0] || event.dataTransfer.files[0];
-    if (file) {
+    // 파일 선택 취소를 고려하여 조건 추가
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
       setSelectedFile(file);
       setFileName(file.name);
       onFileSelect(file);
-
+  
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewURL(reader.result);
       };
       reader.readAsDataURL(file);
+    } else {
+      // 선택된 파일이 없을 경우 기존 상태 유지 또는 적절한 처리
+      console.log('No file selected.');
     }
   };
+  
 
   const handleClick = () => {
     fileInputRef.current.click();
@@ -85,7 +92,14 @@ const ImgUpload = ({ onFileSelect }) => {
   return (
     <Container>
       <UploadArea onClick={handleClick} onDrop={handleDrop} onDragOver={handleDragOver}>
-        {selectedFile ? '✅ 이미지가 업로드 되었습니다' : '클릭 또는 드래그하여 업로드'}
+        {selectedFile ? (
+          <>
+            <div>✅ 이미지가 업로드 되었습니다</div>
+            <div style={{ fontSize: '12px', marginTop: '5px', color: '#252a2f' }}>다시 업로드하려면 클릭</div>
+          </>
+        ) : (
+          '클릭 또는 드래그하여 업로드'
+        )}
       </UploadArea>
       <HiddenInput
         type="file"
