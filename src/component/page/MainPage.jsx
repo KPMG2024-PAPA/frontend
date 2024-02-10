@@ -119,7 +119,7 @@ const MainPage = () => {
           <ClickableBox onClick={() => navigateTo('/sim-page')}>
             <BoxText>🧐 국내/해외 특허 유사도 분석 서비스</BoxText>
           </ClickableBox>
-          <ClickableBox onClick={() => navigateTo('/research-page')}>
+          <ClickableBox onClick={() => navigateTo('/research-page-main')}>
             <BoxText>🔬 연구 동향 자동 리서치 서비스</BoxText>
           </ClickableBox>
         </SecondWrapper>

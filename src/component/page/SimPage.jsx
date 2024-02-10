@@ -179,7 +179,7 @@ const HighlightText = styled.span`
     border-radius: 15px;
     padding-left: 10px;
     padding-right: 10px;
-    font-family: 'pretendard-medium';
+    font-family: 'Pretendard-ExtraBold';
 `;
 
 
@@ -368,7 +368,7 @@ const SimPage = () => {
           <ClickableBox onClick={() => navigateTo('/sim-page')}>
             <HeaderBoxText>유사도 분석</HeaderBoxText>
           </ClickableBox>
-          <ClickableBoxNone onClick={() => navigateTo('/research-page')}>
+          <ClickableBoxNone onClick={() => navigateTo('/research-page-main')}>
             <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
           </ClickableBoxNone>
         </RightContainer>

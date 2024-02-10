@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import { useState, useEffect } from 'react';
 
-import ImgUpload from '../ui/ImgUpload';
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
+import Table from '../ui/Table';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -19,13 +19,13 @@ const AllGlobalStyle = createGlobalStyle`
     font-family: 'Pretendard-ExtraBold', sans-serif;
     }
  `;
-
  
 /* 레이아웃 코드 */
 const Wrapper = styled.div`
   padding: 30px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: auto;
   padding-top: 20px;
 `;
@@ -33,28 +33,20 @@ const Wrapper = styled.div`
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  height: auto;
+  justify-content: center;
+  width: 85%;
+  height: 130px;
   padding-top: 60px;
-  padding-left: 60px;
-  padding-right: 60px;
+  gap: 20px;
 `;
 
 const ThirdWrapper = styled.div`
+  padding: 60px;
   display: flex;
-  width: 50%; 
+  width: 100%; 
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
-  box-sizing: border-box;
-`;
-
-const FourthWrapper = styled.div`
-  display: flex;
-  width: 50%;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding-left: 30px;
   box-sizing: border-box;
 `;
 
@@ -108,6 +100,7 @@ const HeaderText = styled.p`
   color: white;
   margin-left: 5px;
 `;
+
 
 
 /* 상단바- 선택된 페이지 버튼*/
@@ -186,49 +179,51 @@ const HighlightText = styled.span`
     border-radius: 15px;
     padding-left: 10px;
     padding-right: 10px;
+    font-family: 'Pretendard-ExtraBold';
 `;
 
 
-/* 본문 좌측 */
+/* 본문 상단 */
 const GuideText = styled.p`
-  font-size: 20px;
+  font-size: 12px;
   text-align: center;
-  //background-color: #252a2f;
-  color: #252a2f;
-  //border-radius: 15px;
+  color: #aaaaaa;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
-const ButtonContainer = styled.p`
-  padding-top: 5px;
-  justify-content: right;
-  align-items: right;
+const CustomButton = styled(Button)`
+  padding: 7px 7px;
+  font-size: 30px;
+  border-width: 0px;
+  border-radius: 15px;
+  display: flex;
+  width: 140px;
+  height: 100%;
+  cursor: pointer;
+  align-items: center;
+  background: linear-gradient(to right, #9dbdeb, #7f85d8);
+  color: white;
+  justify-content: center;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
+  font-family: 'Pretendard', sans-serif;
 `;
 
 const CustomTextInput = styled(TextInput)`
-    height: 300px;
+    height: 100%;
     box-sizing: border-box; // padding을 포함한 높이로 설정
 `;
 
-
-/* 본문 우측 */
-const Box = styled.div`
-    padding: 30px;
-    background-color: white;
-    border-radius: 15px;
-    align-items: left;
-    min-height: 400px;
-    width: 100%;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
-`;
-
-const BoxText = styled.p`
-  font-size: 16px;
-  font-family: 'Pretendard-Medium';
-  margin: 0;
+/* 본문 하단 */
+const SubText = styled.p`
+  font-size: 25px;
+  padding-bottom: 20px;
+  text-align: center;
+  color: #252a2f;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 
-// 로딩화면 컴포넌트
+/* 로딩화면 컴포넌트 */
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -263,8 +258,7 @@ const Message = styled.p`
   }
 `;
 
-
-const SpecPage = () => {
+const ResearchPageMain = () => {
   const navigate = useNavigate();
   
   // 페이지 이동 함수
@@ -273,6 +267,21 @@ const SpecPage = () => {
     navigate(path);
   };
   
+  // 테이블 컴포넌트에 사용할 컬럼명
+  const columns = React.useMemo(
+    () => [
+      { Header: '번호', accessor: 'number' },
+      {
+        Header: '국가',
+        accessor: 'country',
+        Cell: ({ value }) => <span style={{ fontSize: '27px' }}>{value}</span>,
+      },
+      { Header: '특허 이름', accessor: 'patentName' },
+      { Header: '유사도', accessor: 'similarity' },
+      { Header: '상세보기', accessor: 'detail'},
+    ],
+    []
+  );
 
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
 
@@ -281,15 +290,15 @@ const SpecPage = () => {
     const messages = [
       <>
       <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🤔</div>
-      <div>작성해주신 내용을 이해하고 있어요</div>
-      </>,
-      <>
-      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>💡</div>
-      <div>곧 명세서를 작성해드릴게요</div>
+      <div>작성해주신 내용을 분석하고 있어요</div>
       </>,
       <>
       <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>⌛️</div>
-      <div>3분정도 소요될 수 있어요</div>
+      <div>n분정도 소요될 수 있어요</div>
+      </>,
+      <>
+      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🕵🏻</div>
+      <div>기사와 논문을 찾고 있어요</div>
       </>
     ];
     
@@ -327,42 +336,23 @@ const SpecPage = () => {
           <HeaderText>All-in-one 특허 출원 보조 서비스</HeaderText>
         </LeftContainer>
         <RightContainer>
-          <ClickableBox onClick={() => navigateTo('/spec-page')}>
-            <HeaderBoxText>명세서 작성</HeaderBoxText>
-          </ClickableBox>
-          <ClickableBoxNone onClick={() => navigateTo('/sim-page')}>
-            <HeaderBoxTextNone>유사도 분석</HeaderBoxTextNone>
+          <ClickableBoxNone onClick={() => navigateTo('/spec-page')}>
+            <HeaderBoxTextNone>명세서 작성</HeaderBoxTextNone>
           </ClickableBoxNone>
+          <ClickableBox onClick={() => navigateTo('/sim-page')}>
+            <HeaderBoxText>유사도 분석</HeaderBoxText>
+          </ClickableBox>
           <ClickableBoxNone onClick={() => navigateTo('/research-page-main')}>
             <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
           </ClickableBoxNone>
         </RightContainer>
       </Header>
       <Wrapper>
-          <MainTitleText>✍🏻 <HighlightText>명세서 작성</HighlightText> 을 도와드릴게요</MainTitleText>
-          <SecondWrapper>
-            <ThirdWrapper>
-              <GuideText> ☝🏻 이미지를 업로드해주세요 </GuideText>
-                <ImgUpload onFileSelect={(file) => console.log(file)} />
-              <GuideText> ✌🏻 발명품에 대한 설명을 해주세요 </GuideText>
-                <CustomTextInput placeholder="텍스트를 입력해주세요"/>
-                <ButtonContainer>
-                  <Button title='작성 요청하기' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
-                </ButtonContainer>
-                      {/* 로딩 상태가 true일 때만 LoadingOverlay 컴포넌트를 렌더링 */}
-                {isLoading && <LoadingOverlay />}
-            </ThirdWrapper>
-            <FourthWrapper>
-              <GuideText>📝 PAPA가 작성한 초안이에요</GuideText>
-              <Box>
-                <BoxText>여기에 이제 반환받은 명세서를 넣을거에요 미친것....</BoxText>
-              </Box>
-            </FourthWrapper>
-          </SecondWrapper>
+          <MainTitleText>🧐 <HighlightText>연구동향 리서치</HighlightText> 를 도와드릴게요</MainTitleText>
       </Wrapper>
     </div>
   );
 };
 
-export default SpecPage;
+export default ResearchPageMain;
 
