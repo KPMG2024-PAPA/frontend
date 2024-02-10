@@ -328,7 +328,7 @@ const ResearchPageMain = () => {
     setTimeout(() => {
       setIsLoading(false);
       navigateTo('/research-page-sub');
-    }, 6500); // 6.5초 후에 실행됩니다.
+    }, 10000); // 10초 후에 실행됩니다.
   };
 
 
@@ -336,7 +336,7 @@ const ResearchPageMain = () => {
     <div>
       <AllGlobalStyle />
       <Header>
-      <LeftContainer>
+        <LeftContainer>
           <ClickableBoxLogo onClick={() => navigateTo('/')}>
             <HeaderLogoText>PAPA</HeaderLogoText>
           </ClickableBoxLogo>

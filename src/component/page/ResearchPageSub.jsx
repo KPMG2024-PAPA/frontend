@@ -2,10 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-import { useState, useEffect } from 'react';
 
-import TextInput from '../ui/TextInput';
-import Button from '../ui/Button';
+import '../../App.css';
 import Table from '../ui/Table';
 
 const AllGlobalStyle = createGlobalStyle`
@@ -32,22 +30,29 @@ const Wrapper = styled.div`
 
 const SecondWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 85%;
-  height: 130px;
-  padding-top: 60px;
+  flex-direction: column;
+  align-items: center;
+  width: 1800px;
+  padding-top: 30px;
   gap: 20px;
 `;
 
-const ThirdWrapper = styled.div`
-  padding: 60px;
+const NewsWrapper = styled.div`
   display: flex;
-  width: 100%; 
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: flex-start;
-  box-sizing: border-box;
+  padding-top: 10px;
+  width: 85%;
+`;
+
+const PaperWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+  width: 85%;
 `;
 
 
@@ -183,92 +188,19 @@ const HighlightText = styled.span`
 `;
 
 
-/* 본문 상단 */
-const GuideText = styled.p`
-  font-size: 12px;
-  text-align: center;
-  color: #aaaaaa;
-  font-family: 'Pretendard-ExtraBold';
-`;
 
-const CustomButton = styled(Button)`
-  padding: 7px 7px;
-  font-size: 30px;
-  border-width: 0px;
-  border-radius: 15px;
-  display: flex;
-  width: 140px;
-  height: 100%;
-  cursor: pointer;
-  align-items: center;
-  background: linear-gradient(to right, #9dbdeb, #7f85d8);
-  color: white;
-  justify-content: center;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15);
-  font-family: 'Pretendard', sans-serif;
-`;
-
-const CustomTextInput = styled(TextInput)`
-    height: 100%;
-    box-sizing: border-box; // padding을 포함한 높이로 설정
-`;
-
-/* 본문 하단 */
+/* 본문 */
 const SubText = styled.p`
-  font-size: 25px;
-  padding-bottom: 20px;
+  font-size: 20px;
   text-align: center;
   color: #252a2f;
   font-family: 'Pretendard-ExtraBold';
 `;
 
-
-/* 로딩화면 컴포넌트 */
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
+const CustomTable = styled(Table)`
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; // 수정됨
+  height: 200px;
 `;
-
-
-const Message = styled.p`
-  color: #d0d0d0;
-  display: flex;
-  flex-direction: column;
-  font-size: 24px; // 수정됨
-  opacity: 0; // 초기 상태는 투명
-  align-items: center;
-  animation: fadeInOut 4s infinite; // 4초 동안 무한 반복
-  background-color:  rgba(0, 0, 0, 0.3);
-  width: 368px;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-
-  @keyframes fadeInOut {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
-  }
-`;
-
-  /* 국가명에 따른 이모티콘 반환 함수 */
-  const countryToEmoji = (country) => {
-    switch (country) {
-      case '한국': return '🇰🇷';
-      case '미국': return '🇺🇸';
-      case '중국': return '🇨🇳';
-      case '일본': return '🇯🇵';
-      case '유럽': return '🇪🇺';
-      default: return '-';
-    }
-  };
 
 
 
@@ -280,82 +212,68 @@ const ResearchPageSub = () => {
     console.log(`${path} clicked!`);
     navigate(path);
   };
-  
-  // 테이블 컴포넌트에 사용할 컬럼명
-  const columns = React.useMemo(
-    () => [
-      { Header: '번호', accessor: 'number' },
-      {
-        Header: '국가',
-        accessor: 'country',
-        Cell: ({ value }) => <span style={{ fontSize: '27px' }}>{value}</span>,
-      },
-      { Header: '특허 이름', accessor: 'patentName' },
-      { Header: '유사도', accessor: 'similarity' },
-      { Header: '상세보기', accessor: 'detail'},
-    ],
-    []
-  );
-
-  // 임시 데이터
-  const data = React.useMemo(
-    () => [
-      { number: '1', country: '한국', patentName: '개쩌는 선풍기', similarity: '98%', detail: '컬럼들' },
-      { number: '2', country: '미국', patentName: '진짜 쩌는 선풍기', similarity: '75%', detail: '더 추가' },
-      { number: '3', country: '??', patentName: '쩌는 선풍기', similarity: '60%', detail: '가능이염' },
-      { number: '4', country: '일본', patentName: '굿이에요 선풍기', similarity: '40%', detail: '얏호!' },
-      { number: '5', country: '유럽', patentName: '적당해요 선풍기', similarity: '20%', detail: '졸리당' }
-    ].map(item => ({
-      ...item,
-      country: countryToEmoji(item.country), // 국가명에 따른 이모티콘으로 변환
-    })),
-    []
-  );
 
 
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
-
-  // 로딩 화면 컴포넌트
-  const LoadingOverlay = () => {
-    const messages = [
-      <>
-      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🤔</div>
-      <div>작성해주신 내용을 분석하고 있어요</div>
-      </>,
-      <>
-      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>⌛️</div>
-      <div>n분정도 소요될 수 있어요</div>
-      </>
-    ];
-    
-    const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  
-    useEffect(() => {
-      const intervalId = setInterval(() => {
-        setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
-      }, 4000); // 메시지 변경 주기를 4초로 설정 (애니메이션 주기에 맞춤)
-  
-      return () => clearInterval(intervalId);
-    }, []);
-  
-    return (
-      <Overlay>
-        <Message>{messages[currentMessageIndex]}</Message>
-      </Overlay>
+    {/* 뉴스 테이블 컴포넌트에 사용할 컬럼명 */}
+    const columns_news = React.useMemo(
+      () => [
+        { Header: '번호', accessor: 'number' },
+        {
+          Header: '기사 제목',
+          accessor: 'title_news',
+          Cell: ({ row }) => (
+            <a href={row.original.url_news} target="_blank" rel="noopener noreferrer" className="link-style">
+              {row.values.title_news}
+            </a>
+          )
+        }
+      ],
+      []
     );
-  };
+  
+    {/* 뉴스 임시 데이터 */}
+    const data_news = React.useMemo(
+      () => [
+        { number: '1', title_news: "“세게 때려라” KIA 21세 특급 좌완불펜은 이미 150km 정복했는데…약속의 땅, 호주 기운 ‘팍팍’[MD캔버라]", url_news: 'https://www.naver.com' },
+        { number: '2', title_news: "‘KIA 82승 1위’ 귀신처럼 맞아온 데이터, 토종 최강 전력을 말하다 [SS포커스]", url_news: 'https://www.naver.com' },
+        { number: '3', title_news: "정상 등반 나선 KIA 타이거즈, 시즌 출발하기도 전에 '날벼락'", url_news: 'https://www.naver.com' },
+        { number: '4', title_news: "'팀 코리아' 예비엔트리 승선…김도영의 각오 '몸 상태 회복하면 출전 원한다'", url_news: 'https://www.naver.com' },
+        { number: '5', title_news: "KIA 타이거즈, 2024시즌 미리보기", url_news: 'https://www.naver.com'}
+      ],[]);
 
-  const handleButtonClick = () => {
-    setIsLoading(true);
-    {/* 버튼 클릭 시, 서버 전달 및 응답 요청*/}
-    {/*응답을 받으면 (false)로 설정 -> 로딩 화면을 비활성화*/}
-  };
+    {/* 논문 테이블 컴포넌트에 사용할 컬럼명 */}
+    const columns_paper = React.useMemo(
+      () => [
+        { Header: '번호', accessor: 'number' },
+        {
+          Header: '논문 제목',
+          accessor: 'title_paper',
+          Cell: ({ row }) => (
+            <a href={row.original.url_paper} target="_blank" rel="noopener noreferrer" className="link-style">
+              {row.values.title_paper}
+            </a>
+          )
+        }
+      ],
+      []
+    );
+    
+    {/* 논문 임시 데이터 */}
+    const data_paper = React.useMemo(
+      () => [
+        { number: '1', title_paper: "“세게 때려라” KIA 21세 특급 좌완불펜은 이미 150km 정복했는데…약속의 땅, 호주 기운 ‘팍팍’[MD캔버라]", url_paper: 'https://www.naver.com' },
+        { number: '2', title_paper: "‘KIA 82승 1위’ 귀신처럼 맞아온 데이터, 토종 최강 전력을 말하다 [SS포커스]", url_paper: 'https://www.naver.com' },
+        { number: '3', title_paper: "정상 등반 나선 KIA 타이거즈, 시즌 출발하기도 전에 '날벼락'", url_paper: 'https://www.naver.com' },
+        { number: '4', title_paper: "'팀 코리아' 예비엔트리 승선…김도영의 각오 '몸 상태 회복하면 출전 원한다'", url_paper: 'https://www.naver.com' },
+        { number: '5', title_paper: "KIA 타이거즈, 2024시즌 미리보기", url_paper: 'https://www.naver.com'}
+      ],[]);
+
 
   return (
     <div>
       <AllGlobalStyle />
       <Header>
-      <LeftContainer>
+        <LeftContainer>
           <ClickableBoxLogo onClick={() => navigateTo('/')}>
             <HeaderLogoText>PAPA</HeaderLogoText>
           </ClickableBoxLogo>
@@ -365,16 +283,26 @@ const ResearchPageSub = () => {
           <ClickableBoxNone onClick={() => navigateTo('/spec-page')}>
             <HeaderBoxTextNone>명세서 작성</HeaderBoxTextNone>
           </ClickableBoxNone>
-          <ClickableBox onClick={() => navigateTo('/sim-page')}>
-            <HeaderBoxText>유사도 분석</HeaderBoxText>
-          </ClickableBox>
-          <ClickableBoxNone onClick={() => navigateTo('/research-page-main')}>
-            <HeaderBoxTextNone>연구동향</HeaderBoxTextNone>
+          <ClickableBoxNone onClick={() => navigateTo('/sim-page')}>
+            <HeaderBoxTextNone>유사도 분석</HeaderBoxTextNone>
           </ClickableBoxNone>
+          <ClickableBox onClick={() => navigateTo('/research-page-main')}>
+            <HeaderBoxText>연구동향</HeaderBoxText>
+          </ClickableBox>
         </RightContainer>
       </Header>
       <Wrapper>
-          <MainTitleText>🧐 <HighlightText>연구동향 리서치</HighlightText> 를 도와드릴게요</MainTitleText>
+          <MainTitleText>🔥 참고하면 좋을 <HighlightText> 국내 논문/뉴스</HighlightText> Top 5 에요</MainTitleText>
+          <SecondWrapper>
+            <NewsWrapper>
+              <SubText>📰 국내 뉴스</SubText>
+              <CustomTable columns={columns_news} data={data_news} />
+            </NewsWrapper>
+            <PaperWrapper>
+              <SubText>📄 국내 논문</SubText>
+              <CustomTable columns={columns_paper} data={data_paper} />
+            </PaperWrapper>
+          </SecondWrapper>
       </Wrapper>
     </div>
   );

@@ -34,7 +34,7 @@ const StyledTr = styled.tr`
 `;
 
 
-function Table({ columns, data }) {
+function Table({ columns, data, className }) {
   const {
     getTableProps,
     getTableBodyProps,
@@ -47,7 +47,7 @@ function Table({ columns, data }) {
   });
 
   return (
-    <StyledTable {...getTableProps()}>
+    <StyledTable className={className} {...getTableProps()}>
       <StyledThead>
         {headerGroups.map(headerGroup => (
           <StyledTr {...headerGroup.getHeaderGroupProps()}>
