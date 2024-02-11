@@ -8,6 +8,8 @@ import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
 import HeaderComponent from '../ui/HeaderComponent';
 
+import { animationMixin } from '../effect/Animation';
+
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Pretendard-ExtraBold';
@@ -37,6 +39,7 @@ const SecondWrapper = styled.div`
   align-items: center;
   width: 80%;
   padding-top: 30px;
+  ${animationMixin};
 `;
 
 const ThirdWrapper = styled.div`
@@ -45,6 +48,7 @@ const ThirdWrapper = styled.div`
   justify-content: center;
   padding-top: 10px;
   width: 80%;
+  ${animationMixin};
 `;
 
 const FourthWrapper = styled.div`
@@ -54,6 +58,7 @@ const FourthWrapper = styled.div`
   width: 80%;
   height: 130px;
   gap: 20px;
+  ${animationMixin};
 `;
 
 /* 상단바- 선택된 페이지 버튼*/
@@ -102,6 +107,7 @@ const MainTitleText = styled.p`
     padding-bottom: 0px;
     color: #252a2f;
     font-family: 'Pretendard-ExtraBold';
+    ${animationMixin};
 `;
 
 const HighlightText = styled.span`
@@ -120,13 +126,15 @@ const GuideText = styled.p`
   text-align: center;
   color: #aaaaaa;
   font-family: 'Pretendard-ExtraBold';
+  ${animationMixin};
 `;
 
 
 const WordCloud = styled.img`
-  width: 60%; /* 원하는 너비 설정 */
+  width: 75%; /* 원하는 너비 설정 */
   height: auto; /* 높이를 auto로 설정하여 비율 유지 */
   object-fit: contain; /* 컨테이너 내에서 비율 유지하며 맞춤 */
+  ${animationMixin}
 `;
 
 
@@ -136,11 +144,13 @@ const SubText = styled.p`
   text-align: center;
   color: #252a2f;
   font-family: 'Pretendard-ExtraBold';
+  ${animationMixin};
 `;
 
 const CustomTextInput = styled(TextInput)`
     height: 100%;
     box-sizing: border-box; // padding을 포함한 높이로 설정
+    ${animationMixin}
 `;
 
 const CustomButton = styled(Button)`
@@ -158,6 +168,7 @@ const CustomButton = styled(Button)`
   justify-content: center;
   box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
   font-family: 'Pretendard-ExtraBold';
+  ${animationMixin}
 `;
 
 
@@ -198,7 +209,7 @@ const Message = styled.p`
 
 const ResearchPageMain = () => {
   const navigate = useNavigate();
-  
+
   // 페이지 이동 함수
   const navigateTo = (path) => {
     console.log(`${path} clicked!`);
@@ -255,7 +266,7 @@ const ResearchPageMain = () => {
     setTimeout(() => {
       setIsLoading(false);
       navigateTo('/research-page-sub');
-    }, 10000); // 10초 후에 실행됩니다.
+    }, 7000);  // 7초 뒤 페이지 이동
   };
 
 
@@ -278,7 +289,7 @@ const ResearchPageMain = () => {
           <MainTitleText>🔍 <HighlightText>연구동향 리서치</HighlightText> 를 도와드릴게요</MainTitleText>
           <SecondWrapper>
             <WordCloud src={process.env.PUBLIC_URL + 'output.png'} />
-            <GuideText>* 최근 1년 간 등록된 특허 기준 / Update: 2024.02.11 00:00</GuideText>
+            <GuideText >* 최근 1년 간 등록된 특허 기준 / Update: 2024.02.11 00:00</GuideText>
           </SecondWrapper>
           <ThirdWrapper>
             <SubText>아이디어를 입력해주시면, 관련 뉴스와 논문을 찾아드려요</SubText>
@@ -286,9 +297,9 @@ const ResearchPageMain = () => {
           <FourthWrapper>
             <CustomTextInput placeholder="아이디어를 입력해주세요" />
             <CustomButton title="👀" onClick={handleButtonClick} />
-              {isLoading && <LoadingOverlay />}
           </FourthWrapper>
       </Wrapper>
+                    {isLoading && <LoadingOverlay />}
     </div>
   );
 };

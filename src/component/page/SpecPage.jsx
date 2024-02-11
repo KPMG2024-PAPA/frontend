@@ -8,6 +8,7 @@ import ImgUpload from '../ui/ImgUpload';
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
 import HeaderComponent from '../ui/HeaderComponent'; 
+import { animationMixin } from '../effect/Animation';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -29,17 +30,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: auto;
-`;
-const SecondWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 90%;
-  height: 700px;
-  padding-top: 60px;
-  gap: 50px;
+  height: 1000px;
 `;
 
 const ThirdWrapper = styled.div`
@@ -48,6 +39,7 @@ const ThirdWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   box-sizing: border-box;
+  ${animationMixin};
 `;
 
 const FourthWrapper = styled.div`
@@ -57,6 +49,7 @@ const FourthWrapper = styled.div`
   align-items: flex-start;
   justify-content: flex-start;
   box-sizing: border-box;
+  ${animationMixin};
 `;
 
 
@@ -105,6 +98,7 @@ const MainTitleText = styled.p`
     padding-bottom: 0px;
     color: #252a2f;
     font-family: 'Pretendard-ExtraBold';
+    ${animationMixin};
 `;
 
 const HighlightText = styled.span`
@@ -115,6 +109,16 @@ const HighlightText = styled.span`
     padding-right: 10px;
 `;
 
+const SecondWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 95%;
+  height: 700px;
+  padding-top: 60px;
+  gap: 50px;
+  ${animationMixin};
+`;
 
 /* 본문 좌측 */
 const GuideText = styled.p`
@@ -171,7 +175,7 @@ const Box = styled.div`
     background-color: white;
     border-radius: 15px;
     align-items: left;
-    height: 100%;
+    height: 70%;
     width: 100%;
     box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
@@ -298,7 +302,6 @@ const SpecPage = () => {
               <ButtonContainer1>
                   <CustomButton1 title='작성 요청하기' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
                       {/* 로딩 상태가 true일 때만 LoadingOverlay 컴포넌트를 렌더링 */}
-                {isLoading && <LoadingOverlay />}
               </ButtonContainer1> 
             </ThirdWrapper>
             <FourthWrapper>
@@ -313,6 +316,7 @@ const SpecPage = () => {
             </FourthWrapper>
           </SecondWrapper>
       </Wrapper>
+      {isLoading && <LoadingOverlay />}
     </div>
   );
 };

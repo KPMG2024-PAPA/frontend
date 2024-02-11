@@ -6,6 +6,8 @@ import { createGlobalStyle } from 'styled-components';
 import '../../App.css';
 import Table from '../ui/Table';
 import HeaderComponent from '../ui/HeaderComponent';
+import { animationMixin } from '../effect/Animation';
+// ${animationMixin}; -> 애니메이션 효과를 위한 코드
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -28,6 +30,7 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   height: auto;
+  ${animationMixin};
 `;
 
 const SecondWrapper = styled.div`
@@ -41,19 +44,18 @@ const SecondWrapper = styled.div`
 const NewsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding-top: 10px;
+  padding-bottom: 30px;
   width: 100%;
+  ${animationMixin};
 `;
 
 const PaperWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding-top: 10px;
   width: 100%;
+  ${animationMixin};
 `;
 
 
@@ -119,7 +121,7 @@ const HighlightText = styled.span`
 /* 본문 */
 const SubText = styled.p`
   font-size: 20px;
-  text-align: center;
+  //text-align: center;
   color: #252a2f;
   font-family: 'Pretendard-ExtraBold';
 `;
@@ -215,11 +217,11 @@ const ResearchPageSub = () => {
           <MainTitleText>🔥 참고하면 좋을 <HighlightText> 국내 논문/뉴스</HighlightText> Top 5 에요</MainTitleText>
           <SecondWrapper>
             <NewsWrapper>
-              <SubText>📰 국내 뉴스</SubText>
+              <SubText style={{textAlign: 'left'}}>📰 국내 뉴스</SubText>
               <CustomTable columns={columns_news} data={data_news} />
             </NewsWrapper>
             <PaperWrapper>
-              <SubText>📄 국내 논문</SubText>
+              <SubText style={{textAlign: 'right'}}>📄 국내 논문</SubText>
               <CustomTable columns={columns_paper} data={data_paper} />
             </PaperWrapper>
           </SecondWrapper>

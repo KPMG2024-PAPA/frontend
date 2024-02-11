@@ -5,7 +5,7 @@ const Container = styled.div`
   display: flex; // Flex 컨테이너로 설정
   width: 85%;
   align-items: flex-start; // 아이템들을 상단 정렬
-  gap: 20px; // 아이템 간 간격 설정
+  gap: 50px; // 아이템 간 간격 설정
 `;
 
 const UploadArea = styled.div`
@@ -36,7 +36,7 @@ const PreviewContainer = styled.div`
   display: flex; // Flex 컨테이너로 설정
   flex-direction: column; // 아이템들을 세로로 배치
   align-items: center; // 가운데 정렬
-  //gap: 10px; // 아이템 간 간격 설정
+  gap: 10px; // 아이템 간 간격 설정
   width: 50%;
   font-family: 'Pretendard-ExtraBold';
 `;
@@ -44,6 +44,7 @@ const PreviewContainer = styled.div`
 const PreviewImage = styled.img`
   max-width: 300px; // 이미지 최대 너비 조정
   max-height: 200px; // 이미지 최대 높이 조정
+  margin-left: 10px;
   //border-radius: 10px; // 이미지 둥근 모서리 추가
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
   font-family: 'Pretendard-ExtraBold';

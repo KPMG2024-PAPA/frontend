@@ -1,8 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled, { createGlobalStyle, css, keyframes } from 'styled-components';
-import HeaderComponent from '../ui/HeaderComponent';
+import styled, { createGlobalStyle } from 'styled-components';
 import { useEffect, useState } from 'react';
+
+
+import HeaderComponent from '../ui/HeaderComponent';
+import { animationMixin } from '../effect/Animation';
+
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -19,28 +23,14 @@ const AllGlobalStyle = createGlobalStyle`
  `;
  
 
-const fadeInSlideUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const animationMixin = css`
-  animation: ${fadeInSlideUp} 3s ease-out forwards;
-`;
 
 // 전체적인 레이아웃을 담당하는 코드
 const Wrapper = styled.div`
-  ${props => props.animate && animationMixin}
   padding: 30px;
   display: flex;
   flex-direction: column;
   padding-top: 40px;
+  ${animationMixin};
 `;
 
 
@@ -88,6 +78,7 @@ const Box = styled.div`
     box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1); /* 내부 그림자 효과 추가 */
     font-family: 'Pretendard-ExtraBold';
     box-sizing: border-box;
+    ${animationMixin};
 `;
 
 const BoxText = styled.p`
@@ -98,7 +89,7 @@ const BoxText = styled.p`
 
 
 const ClickableBox = styled(Box)`
-  ${props => props.animate && animationMixin}
+  ${animationMixin};
   cursor: pointer;
   transition: background-color 0.3s ease;
   &:hover {
@@ -127,16 +118,16 @@ const MainPage = () => {
     <div>
       <AllGlobalStyle />
       <HeaderComponent />
-      <Wrapper animate={animate}>
+      <Wrapper>
           <MainTitleText>
             <>
             <div>안녕하세요,</div>
-            <div style={{paddingTop: '15px'}}>All-in-one 특허 출원 보조 서비스 </div>
+            <div style={{paddingTop: '15px'}}>All-In-One 특허 출원 보조 서비스 </div>
             <div style={{paddingTop: '15px'}}><HighlightText>PAPA</HighlightText> 입니다</div>
             </>
           </MainTitleText>
         <SecondWrapper>
-          <ClickableBox animate={animate} style={{backgroundColor: '#fdf3f1'}} onClick={() => navigateTo('/spec-page')}>
+          <ClickableBox style={{backgroundColor: '#fdf3f1'}} onClick={() => navigateTo('/spec-page')}>
             <BoxText>
               <>
                 <div>명세서 작성 보조 서비스</div>
@@ -146,23 +137,23 @@ const MainPage = () => {
               </>
             </BoxText>
           </ClickableBox>
-          <ClickableBox animate={animate} style={{backgroundColor: '#f8f8ef'}} onClick={() => navigateTo('/sim-page')}>
+          <ClickableBox style={{backgroundColor: '#f8f8ef'}} onClick={() => navigateTo('/sim-page')}>
             <BoxText>
               <>
               <div>국내외 특허 유사도 분석 서비스</div>
-                <div style={{fontSize: '23px', textAlign: 'right', marginTop: '20px'}}> 해외 특허까지 클릭 한-번에</div>
+                <div style={{fontSize: '23px', textAlign: 'right', marginTop: '20px'}}> 클릭 한-번에 해외 특허까지</div>
                 <div style={{fontSize: '23px', textAlign: 'right'}}> 통합 검색할 수 있어요 </div>
                 <div style={{fontSize: '18px', color: '#8f96a0', textAlign: 'right', marginTop: '20px'}}> AI가 번역해줘요 💬</div>
               </>
             </BoxText>
           </ClickableBox>
-          <ClickableBox animate={animate} style={{backgroundColor: '#eff7fd'}} onClick={() => navigateTo('/research-page-main')}>
+          <ClickableBox style={{backgroundColor: '#eff7fd'}} onClick={() => navigateTo('/research-page-main')}>
             <BoxText>
               <>
               <div>연구동향 리서치 서비스</div>
                 <div style={{fontSize: '23px', textAlign: 'right', marginTop: '20px'}}> 어떤 단어로 검색할 지 고민되시죠?</div>
-                <div style={{fontSize: '23px', textAlign: 'right'}}> 간결한 문장이 아니어도 돼요</div>
-                <div style={{fontSize: '18px', color: '#8f96a0', textAlign: 'right', marginTop: '20px'}}> 문장으로 검색하세요 🔍</div>
+                <div style={{fontSize: '23px', textAlign: 'right'}}> 꼭 간결하지 않아도 돼요</div>
+                <div style={{fontSize: '18px', color: '#8f96a0', textAlign: 'right', marginTop: '20px'}}> 긴 문장으로 검색하세요 🔍</div>
               </>
             </BoxText>
           </ClickableBox>

@@ -7,7 +7,8 @@ import { useState, useEffect } from 'react';
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
 import Table from '../ui/Table';
-import HeaderComponent from '../ui/HeaderComponent';
+import HeaderComponent from '../ui/HeaderComponent'
+import { animationMixin } from '../effect/Animation';
 
 const AllGlobalStyle = createGlobalStyle`
   @font-face {
@@ -27,9 +28,8 @@ const Wrapper = styled.div`
   padding-right: 180px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  height: auto;
+  height: 1000px;
 `;
 
 const SecondWrapper = styled.div`
@@ -41,6 +41,7 @@ const SecondWrapper = styled.div`
   height: 130px;
   padding-top: 60px;
   gap: 20px;
+  ${animationMixin};
 `;
 
 const ThirdWrapper = styled.div`
@@ -52,7 +53,6 @@ const ThirdWrapper = styled.div`
   justify-content: flex-start;
   box-sizing: border-box;
 `;
-
 
 /* 상단바- 선택된 페이지 버튼*/
 const HeaderBox = styled.div`
@@ -99,6 +99,7 @@ const MainTitleText = styled.p`
     padding-bottom: 0px;
     color: #252a2f;
     font-family: 'Pretendard-ExtraBold';
+    ${animationMixin};
 `;
 
 const HighlightText = styled.span`
@@ -117,6 +118,7 @@ const GuideText = styled.p`
   text-align: center;
   color: #aaaaaa;
   font-family: 'Pretendard-ExtraBold';
+  ${animationMixin};
 `;
 
 const CustomButton = styled(Button)`
@@ -134,11 +136,13 @@ const CustomButton = styled(Button)`
   justify-content: center;
   box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
   font-family: 'Pretendard-ExtraBold';
+  ${animationMixin};
 `;
 
 const CustomTextInput = styled(TextInput)`
     height: 100%;
     box-sizing: border-box; // padding을 포함한 높이로 설정
+    ${animationMixin}
 `;
 
 /* 본문 하단 */
