@@ -11,21 +11,19 @@ const StyledButton = styled.button`
     height: 32px;
     cursor: pointer;
     align-items: center;
-    background: linear-gradient(to right, #9dbdeb, #7f85d8);
+    //background: linear-gradient(to right, #9dbdeb, #7f85d8);
     color: white;
     justify-content: center;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
-    font-family: 'Pretendard', sans-serif; /* NanumNeo 폰트를 적용 */
+    font-family: 'Pretendard-Extrabold';
 `;
 
 
 
 
 
-function Button(props) {
-    const { title, onClick } = props;
-    
-    return <StyledButton onClick={onClick}>{title || "button"}</StyledButton>;
+function Button({ title, onClick, className }) {
+    return <StyledButton className={className} onClick={onClick}>{title || "button"}</StyledButton>;
 }
 
 export default Button;

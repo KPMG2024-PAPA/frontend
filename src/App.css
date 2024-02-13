@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+/* CSS 파일 예시 */
+.link-style {
+  color: #252a2f; /* 기본 색상 */
+  text-decoration: none;
+}
+
+.link-style:hover {
+  color: #8f96a0; /* 마우스 오버 시 밑줄 표시 */
+}

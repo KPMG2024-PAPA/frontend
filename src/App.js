@@ -9,8 +9,8 @@ import {
 import MainPage from './component/page/MainPage';
 import SpecPage from './component/page/SpecPage';
 import SimPage from './component/page/SimPage';
-import ResearchPage from './component/page/ResearchPage';
-
+import ResearchPageMain from './component/page/ResearchPageMain';
+import ResearchPageSub from "./component/page/ResearchPageSub";
 
 function App(props) {
   return (
@@ -20,7 +20,8 @@ function App(props) {
           <Route index element={<MainPage />} />
           <Route path="/spec-page" element={<SpecPage />} />
           <Route path="/sim-page" element={<SimPage />} />
-          <Route path="/research-page" element={<ResearchPage />} />
+          <Route path="/research-page-main" element={<ResearchPageMain />} />
+          <Route path="/research-page-sub" element={<ResearchPageSub />} />
         </Routes>
       </BrowserRouter>
     </>
