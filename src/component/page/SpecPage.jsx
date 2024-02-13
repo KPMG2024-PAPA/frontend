@@ -14,12 +14,14 @@ const AllGlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Pretendard-ExtraBold';
     src: url('/font/Pretendard-ExtraBold.ttf') format('truetype');
-    font-family: 'Pretendard-Medium';
-    src: url('/font/Pretendard-Medium.ttf') format('truetype');
   }
     body {
-    font-family: 'Pretendard-ExtraBold', sans-serif;
+    font-family: 'Pretendard-ExtraBold';
     }
+  @font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('/font/Pretendard-Medium.ttf') format('truetype');;
+  }
  `;
 
  
@@ -71,6 +73,7 @@ const HeaderBoxText = styled.p`
   font-size: 16px;
   text-align: center;
   color: #252a2f;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const HeaderBoxTextNone = styled.p`
@@ -127,6 +130,7 @@ const GuideText = styled.p`
   //background-color: #252a2f;
   color: #252a2f;
   //border-radius: 15px;
+  font-family: 'Pretendard-ExtraBold';
 `;
 
 const CustomTextInput = styled(TextInput)`

@@ -14,12 +14,14 @@ const AllGlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Pretendard-ExtraBold';
     src: url('/font/Pretendard-ExtraBold.ttf') format('truetype');
-    font-family: 'Pretendard-Medium';
-    src: url('/font/Pretendard-Medium.ttf') format('truetype');
   }
     body {
-    font-family: 'Pretendard-ExtraBold', sans-serif;
+    font-family: 'Pretendard-ExtraBold';
     }
+  @font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('/font/Pretendard-Medium.ttf') format('truetype');;
+  }
  `;
  
 /* 레이아웃 코드 */
@@ -304,13 +306,13 @@ const SimPage = () => {
           <SecondWrapper>
             <CustomTextInput placeholder="텍스트를 입력해주세요"/>
             <CustomButton title='🔍' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
-            {isLoading && <LoadingOverlay />}
           </SecondWrapper>
           <ThirdWrapper>
             <SubText>당신의 아이디어를 분석한 결과, 유사한 특허는 아래와 같아요</SubText>
             <Table columns={columns} data={data} />
           </ThirdWrapper>
       </Wrapper>
+      {isLoading && <LoadingOverlay />}
     </div>
   );
 };

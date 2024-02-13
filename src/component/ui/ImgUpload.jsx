@@ -25,7 +25,7 @@ const UploadArea = styled.div`
   height: 100px;
   box-sizing: border-box;
   box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1); /* 내부 그림자 효과 추가 */
-  font-family: 'Pretendard-ExtraBold';
+  font-family: 'Pretendard-Medium';
 `;
 
 const HiddenInput = styled.input`

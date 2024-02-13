@@ -12,16 +12,15 @@ const AllGlobalStyle = createGlobalStyle`
   @font-face {
     font-family: 'Pretendard-ExtraBold';
     src: url('/font/Pretendard-ExtraBold.ttf') format('truetype');
-    font-family: 'Pretendard-SemiBold';
-    src: url('/font/Pretendard-SemiBold.ttf') format('truetype');
-    font-family: 'Pretendard-Light';
-    src: url('/font/Pretendard-Light.ttf') format('truetype');
   }
     body {
-    font-family: 'Pretendard-ExtraBold', sans-serif;
+    font-family: 'Pretendard-ExtraBold';
     }
+  @font-face {
+    font-family: 'Pretendard-SemiBold';
+    src: url('/font/Pretendard-SemiBold.ttf') format('truetype');;
+  }
  `;
- 
 
 
 // 전체적인 레이아웃을 담당하는 코드
