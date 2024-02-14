@@ -47,6 +47,7 @@ const ThirdWrapper = styled.div`
 const FourthWrapper = styled.div`
   display: flex;
   width: 50%;
+  height: auto;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
@@ -179,7 +180,7 @@ const Box = styled.div`
     background-color: white;
     border-radius: 15px;
     align-items: left;
-    height: 70%;
+    height: auto;
     width: 100%;
     box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
@@ -345,7 +346,7 @@ const SpecPage = () => {
             <GuideText> ☝🏻 이미지를 업로드해주세요 </GuideText>
             <ImgUpload onFileSelect={handleFileSelect} />
             <GuideText> ✌🏻 발명품에 대한 설명을 해주세요 </GuideText>
-            <TextInput
+            <CustomTextInput
               placeholder="텍스트를 입력해주세요"
               value={text}
               onChange={handleChange}

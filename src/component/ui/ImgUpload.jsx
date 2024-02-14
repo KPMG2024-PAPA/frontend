@@ -46,7 +46,7 @@ const PreviewImage = styled.img`
   max-height: 200px; // 이미지 최대 높이 조정
   margin-left: 10px;
   //border-radius: 10px; // 이미지 둥근 모서리 추가
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); /* 그림자 효과 추가 */
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.15); /* 그림자 효과 추가 */
   font-family: 'Pretendard-ExtraBold';
 `;
 
