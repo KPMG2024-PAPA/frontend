@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, keyframes } from 'styled-components';
 import { useState, useEffect } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 
 import ImgUpload from '../ui/ImgUpload';
 import TextInput from '../ui/TextInput';
@@ -24,8 +26,6 @@ const AllGlobalStyle = createGlobalStyle`
   }
  `;
 
-
-/* 레이아웃 코드 */
 const Wrapper = styled.div`
   padding-left: 180px;
   padding-right: 180px;
@@ -159,6 +159,34 @@ const ButtonContainer2 = styled.div`
   justify-content: center;
   width: 100%;
   gap: 10px;
+
+  &:hover > .tooltip,
+  &:active > .tooltip {
+    display: block;
+  }
+`;
+
+const tooltip = keyframes`
+  0% { opacity: 0; }
+  40% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 1;}
+`;
+
+const Content = styled.div`
+  display: none;
+  margin-top: 60px;
+  font-size: 12px;
+  position: absolute;
+  color: #252a2f;
+  background-color: #dbdbdb5e;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px;
+  box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
+  z-index: 200;
 `;
 
 const CustomButton2 = styled(Button)`
@@ -191,8 +219,8 @@ const BoxText = styled.p`
   font-family: 'Pretendard-Medium';
   margin: 0;
   color: #252a2f;
+  white-space: pre-line; /* 이 속성을 추가 */
 `;
-
 
 // 로딩화면 컴포넌트
 const Overlay = styled.div`
@@ -235,6 +263,15 @@ const SpecPage = () => {
   const [text, setText] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [responseData, setResponseData] = useState('');
+
+  const Tooltip = ({children, message})=> {
+    return (
+      <ButtonContainer2>
+        {children}
+        <Content className="tooltip">{message}</Content>
+      </ButtonContainer2>
+    );
+  }
 
 
   const handleChange = (event) => {
@@ -289,6 +326,10 @@ const SpecPage = () => {
   const handleButtonClick = async () => {
     await handleSubmit(); // Call handleSubmit directly or modify to not use the event parameter
   };
+
+  
+
+  
 
   // 로딩 화면 컴포넌트
   const LoadingOverlay = () => {
@@ -359,11 +400,14 @@ const SpecPage = () => {
           <FourthWrapper>
             <GuideText>📜 PAPA가 작성한 초안이에요</GuideText>
             <Box>
-              <BoxText>{responseData || "반환받은 명세서"}</BoxText>
+              <BoxText>{responseData || "작성한 명세서가 여기에 작성됩니다"}</BoxText>
             </Box>
             <ButtonContainer2>
-              <CustomButton2 title='📋' />
-              <CustomButton2 title='🔃' />
+              <Tooltip message="Copy">
+                <CopyToClipboard text={responseData} onCopy={() => alert('클립보드에 복사되었습니다.')}>
+                <CustomButton2 title='📋' /></CopyToClipboard> </Tooltip>
+              <Tooltip message="Rewrite"> 
+              <CustomButton2 title='🔃' /> </Tooltip>
             </ButtonContainer2>
           </FourthWrapper>
         </SecondWrapper>
