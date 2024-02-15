@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 1000px;
+  height: auto;
 `;
 
 const ThirdWrapper = styled.div`
@@ -118,10 +118,10 @@ const SecondWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   width: 95%;
-  height: 700px;
   padding-top: 60px;
   gap: 50px;
   ${animationMixin};
+  padding-bottom: 200px;
 `;
 
 /* 본문 좌측 */
@@ -217,11 +217,13 @@ const Box = styled.div`
  
 
 const BoxText = styled.p`
-  font-size: 17px;
+  font-size: 18px;
   font-family: 'Pretendard-Medium';
   margin: 0;
   color: #252a2f;
   white-space: pre-line; /* 이 속성을 추가 */
+  white-space: pre-wrap;
+  line-height: 1.5;
 `;
 
 // 로딩화면 컴포넌트
@@ -265,7 +267,7 @@ const SpecPage = () => {
   const [text, setText] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [responseData, setResponseData] = useState('');
-
+  
   const Tooltip = ({children, message})=> {
     return (
       <ButtonContainer2>
@@ -328,10 +330,6 @@ const SpecPage = () => {
   const handleButtonClick = async () => {
     await handleSubmit(); // Call handleSubmit directly or modify to not use the event parameter
   };
-
-  
-
-  
 
   // 로딩 화면 컴포넌트
   const LoadingOverlay = () => {
@@ -409,7 +407,7 @@ const SpecPage = () => {
                 <CopyToClipboard text={responseData} onCopy={() => alert('클립보드에 복사되었습니다.')}>
                 <CustomButton2 title='📋' /></CopyToClipboard> </Tooltip>
               <Tooltip message="Rewrite"> 
-              <CustomButton2 title='🔃' /> </Tooltip>
+              <CustomButton2 title='🔃' onClick={handleButtonClick}/> </Tooltip>
             </ButtonContainer2>
           </FourthWrapper>
         </SecondWrapper>
@@ -420,4 +418,3 @@ const SpecPage = () => {
 };
 
 export default SpecPage;
-
