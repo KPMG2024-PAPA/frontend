@@ -67,23 +67,30 @@ const HighlightText = styled.span`
 
 
 const Box = styled.div`
-    font-size: 30px;
+    font-size: 30px; /* 초기 폰트 크기 설정, 필요에 따라 조정 */
     border-radius: 15px;
     padding: 30px;
     display: flex;
     flex-direction: column;
-    height: 200px;
-    width: 400px;
-    box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1); /* 내부 그림자 효과 추가 */
+    height: auto; /* 고정 대신 자동 높이로 변경 */
+    width: 100%; /* 박스 너비를 부모에 맞게 조정 */
+    max-width: 400px; /* 최대 너비 설정 */
+    box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.1);
     font-family: 'Pretendard-ExtraBold';
-    box-sizing: border-box;
-    ${animationMixin};
+    box-sizing: border-box; /* 패딩과 테두리 포함 */
+    ${animationMixin}
 `;
 
 const BoxText = styled.p`
-  font-size: 20px;
+  font-size: clamp(16px, 2vw, 20px); /* 최소 크기, 뷰포트 기반 크기, 최대 크기 */
   margin: 0;
   color: #252a2f;
+  word-wrap: break-word; /* 필요시 단어 단위로 줄바꿈 */
+  @media (max-width: 768px) {
+  .BoxText {
+    font-size: clamp(14px, 4vw, 18px); /* 화면이 작을 때 폰트 크기 조정 */
+  }
+}
 `;
 
 

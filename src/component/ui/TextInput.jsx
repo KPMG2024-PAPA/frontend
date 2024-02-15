@@ -16,23 +16,14 @@ const StyledTextarea = styled.textarea`
 `;
 
 
-function TextInput(props) {
-    // 미리보기 텍스트를 상태로 관리합니다.
-    const [text, setText] = useState(''); // 초기값을 빈 문자열로 설정
-
-    const handleChange = (event) => {
-        // 사용자 입력에 따라 텍스트를 업데이트합니다.
-        setText(event.target.value);
-    };
-
+function TextInput({ value, onChange, placeholder, className }) {
     // `placeholder` 대신 `value`와 `onChange`를 사용하여 텍스트 입력을 관리합니다.
     return (
         <StyledTextarea
-            className={props.className}
-            value={text}
-            onChange={handleChange}
-            // 입력 필드가 비어있을 때 표시될 미리보기 텍스트
-            placeholder={props.placeholder}
+            className={className}
+            value={value} // Controlled by parent component
+            onChange={onChange} // Handled by parent component
+            placeholder={placeholder}
         />
     );
 }
