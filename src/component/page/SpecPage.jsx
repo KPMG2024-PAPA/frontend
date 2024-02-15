@@ -214,8 +214,10 @@ const Box = styled.div`
     box-sizing: border-box;
 `;
 
+ 
+
 const BoxText = styled.p`
-  font-size: 16px;
+  font-size: 17px;
   font-family: 'Pretendard-Medium';
   margin: 0;
   color: #252a2f;
