@@ -135,6 +135,10 @@ const GuideText = styled.p`
 `;
 
 const CustomTextInput = styled(TextInput)`
+    white-space: pre-line; /* 이 속성을 추가 */
+    white-space: pre-wrap;
+    font-size: 18px;
+    line-height: 1.5;
     height: 300px;
     box-sizing: border-box; // padding을 포함한 높이로 설정
 `;
@@ -157,8 +161,8 @@ const CustomButton1 = styled(Button)`
 const ButtonContainer2 = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
-  gap: 10px;
 
   &:hover > .tooltip,
   &:active > .tooltip {
@@ -175,7 +179,7 @@ const tooltip = keyframes`
 
 const Content = styled.div`
   display: none;
-  margin-top: 60px;
+  margin-top: 80px;
   font-size: 12px;
   position: absolute;
   color: #252a2f;
@@ -190,7 +194,7 @@ const Content = styled.div`
 `;
 
 const CustomButton2 = styled(Button)`
-  padding: 11px;
+  //padding: 11px;
   color: #252a2f;
   height: auto;
   background: white;
@@ -198,7 +202,7 @@ const CustomButton2 = styled(Button)`
   width: 25px;
   height: fit-content;
   margin-top: 20px;
-  font-size: 20px;
+  font-size: 30px;
 `;
 
 
@@ -384,7 +388,7 @@ const SpecPage = () => {
         <MainTitleText>✍🏻 <HighlightText>명세서 작성</HighlightText> 을 도와드릴게요</MainTitleText>
         <SecondWrapper>
           <ThirdWrapper>
-            <GuideText> ☝🏻 이미지를 업로드해주세요 </GuideText>
+            <GuideText> ☝🏻 도면을 업로드해주세요 </GuideText>
             <ImgUpload onFileSelect={handleFileSelect} />
             <GuideText> ✌🏻 발명품에 대한 설명을 해주세요 </GuideText>
             <CustomTextInput
@@ -407,7 +411,9 @@ const SpecPage = () => {
                 <CopyToClipboard text={responseData} onCopy={() => alert('클립보드에 복사되었습니다.')}>
                 <CustomButton2 title='📋' /></CopyToClipboard> </Tooltip>
               <Tooltip message="Rewrite"> 
-              <CustomButton2 title='🔃' onClick={handleButtonClick}/> </Tooltip>
+                <CustomButton2 title='🔃' onClick={handleButtonClick}/> </Tooltip>
+              <Tooltip message="안내 메세지"> 
+                <CustomButton2 title='💡'/> </Tooltip>
             </ButtonContainer2>
           </FourthWrapper>
         </SecondWrapper>
