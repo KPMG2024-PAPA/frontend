@@ -141,18 +141,22 @@ const ResearchPageSub = () => {
   const location = useLocation();
   const { message } = location.state || {}; // Default to an empty object if state is undefined
   const [fetchedNews, setFetchedNews] = useState([]);
+  const [papersData, setPapersData] = useState([]);
+
 
 
   useEffect(() => {
     // Send a request to the backend to fetch NEWS
     const fetchNewsData = async () => {
       try {
+        const keywordsArray = JSON.parse(message);
+
         const response = await fetch('http://localhost:8000/research-page-sub-news', {
           method: 'POST', // or 'GET', depending on your backend setup
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ inputValue: message }),
+          body: JSON.stringify({ inputValue: keywordsArray }),
         });
 
         if (!response.ok) {
@@ -160,17 +164,8 @@ const ResearchPageSub = () => {
         }
 
         const news = await response.json();
-        console.log(news); // Process or use the data as needed
 
-        if (typeof news.message === 'string') {
-          const correctedFormat = news.message.replace(/'/g, '"');
-          try {
-            const parsedNews = JSON.parse(correctedFormat);
-            setFetchedNews(parsedNews);
-          } catch (error) {
-            console.error('Error parsing corrected format:', error);
-          }
-        }
+        setFetchedNews(news.message);
       } catch (error) {
         console.error('Error from news endpoint:', error);
       }
@@ -180,21 +175,27 @@ const ResearchPageSub = () => {
     // Send a request to the backend to fetch PAPERS
     const fetchPapersData = async () => {
       try {
+        const keywordsArray = JSON.parse(message);
+
         const response = await fetch('http://localhost:8000/research-page-sub-papers', {
           method: 'POST', // or 'GET', depending on your backend setup
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ inputValue: message }),
+          body: JSON.stringify({ inputValue: keywordsArray }),
         });
 
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
 
-        const news = await response.json();
-        console.log(news); // Process or use the data as needed
-        // Optionally, you can store the response in the state to use in your component
+        const papersResponse = await response.json();
+        if (typeof papersResponse.message === 'string') {
+          const parsedPapers = JSON.parse(papersResponse.message);
+          setPapersData(parsedPapers);
+        } else {
+          setPapersData(papersResponse.message);
+        }
       } catch (error) {
         console.error('Error from papers endpoint:', error);
       }
@@ -207,7 +208,7 @@ const ResearchPageSub = () => {
       fetchNewsData();
       fetchPapersData();
     }
-  }, []); // This useEffect depends on `message` and runs whenever `message` changes
+  }, []);
 
 
   // 페이지 이동 함수
@@ -261,14 +262,13 @@ const ResearchPageSub = () => {
   );
 
   {/* 논문 임시 데이터 */ }
-  const data_paper = React.useMemo(
-    () => [
-      { number: '1', title_paper: "“세게 때려라” KIA 21세 특급 좌완불펜은 이미 150km 정복했는데…약속의 땅, 호주 기운 ‘팍팍’[MD캔버라]", url_paper: 'https://www.naver.com' },
-      { number: '2', title_paper: "‘KIA 82승 1위’ 귀신처럼 맞아온 데이터, 토종 최강 전력을 말하다 [SS포커스]", url_paper: 'https://www.naver.com' },
-      { number: '3', title_paper: "정상 등반 나선 KIA 타이거즈, 시즌 출발하기도 전에 '날벼락'", url_paper: 'https://www.naver.com' },
-      { number: '4', title_paper: "'팀 코리아' 예비엔트리 승선…김도영의 각오 '몸 상태 회복하면 출전 원한다'", url_paper: 'https://www.naver.com' },
-      { number: '5', title_paper: "KIA 타이거즈, 2024시즌 미리보기", url_paper: 'https://www.naver.com' }
-    ], []);
+  const data_paper = React.useMemo(() => {
+    return papersData.map((item, index) => ({
+      number: (index + 1).toString(),
+      title_paper: item[0], // Assuming this is the title
+      url_paper: item[3] // Assuming this is the URL
+    }));
+  }, [papersData]);
 
 
   return (
