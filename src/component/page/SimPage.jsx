@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import { useState, useEffect } from 'react';
+import Dialog from '../ui/Dialog';
 
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
@@ -54,6 +55,14 @@ const ThirdWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   box-sizing: border-box;
+`;
+
+const FourthWrapper = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 `;
 
 /* 상단바- 선택된 페이지 버튼*/
@@ -156,6 +165,15 @@ const SubText = styled.p`
   font-family: 'Pretendard-ExtraBold';
 `;
 
+const DefaultText = styled.div`
+  font-size: 20px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  text-align: center;
+  color: #252a2f;
+  font-family: 'Pretendard-ExtraBold';
+`;
+
 
 /* 로딩화면 컴포넌트 */
 const Overlay = styled.div`
@@ -195,11 +213,11 @@ const Message = styled.p`
   /* 국가명에 따른 이모티콘 반환 함수 */
   const countryToEmoji = (country) => {
     switch (country) {
-      case '한국': return '🇰🇷';
-      case '미국': return '🇺🇸';
-      case '중국': return '🇨🇳';
-      case '일본': return '🇯🇵';
-      case '유럽': return '🇪🇺';
+      case 'KR': return '🇰🇷';
+      case 'US': return '🇺🇸';
+      case 'CN': return '🇨🇳';
+      case 'JP': return '🇯🇵';
+      case 'EU': return '🇪🇺';
       default: return '-';
     }
   };
@@ -208,12 +226,24 @@ const Message = styled.p`
 
 const SimPage = () => {
   const navigate = useNavigate();
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // Dialog 표시 상태
   
   // 페이지 이동 함수
   const navigateTo = (path) => {
     console.log(`${path} clicked!`);
     navigate(path);
   };
+
+  // Dialog를 열기 위한 함수
+  const openDialog = () => {
+    setIsDialogOpen(true);
+  };
+
+  // Dialog를 닫기 위한 함수
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+  };
+
   
   // 테이블 컴포넌트에 사용할 컬럼명
   const columns = React.useMemo(
@@ -224,9 +254,20 @@ const SimPage = () => {
         accessor: 'country',
         Cell: ({ value }) => <span style={{ fontSize: '27px' }}>{value}</span>,
       },
-      { Header: '특허 이름', accessor: 'patentName' },
+      { Header: '출원 번호', accessor: 'applicationNumber'},
+      { Header: '발명의 명칭', accessor: 'patentName' },
+      { Header: '대표 분류 코드', accessor: 'ipcCode'},
       { Header: '유사도', accessor: 'similarity' },
-      { Header: '상세보기', accessor: 'detail'},
+      {
+        Header: '요약 상세보기',
+        accessor: 'detail',
+        // Cell 컴포넌트에서 클릭 이벤트 핸들러를 사용
+        Cell: ({ row }) => (
+          <span style={{ cursor: 'pointer' }} onClick={openDialog}>
+            🔎
+          </span>
+        ),
+      },
     ],
     []
   );
@@ -234,11 +275,11 @@ const SimPage = () => {
   // 임시 데이터
   const data = React.useMemo(
     () => [
-      { number: '1', country: '한국', patentName: '개쩌는 선풍기', similarity: '98%', detail: '컬럼들' },
-      { number: '2', country: '미국', patentName: '진짜 쩌는 선풍기', similarity: '75%', detail: '더 추가' },
-      { number: '3', country: '??', patentName: '쩌는 선풍기', similarity: '60%', detail: '가능이염' },
-      { number: '4', country: '일본', patentName: '굿이에요 선풍기', similarity: '40%', detail: '얏호!' },
-      { number: '5', country: '유럽', patentName: '적당해요 선풍기', similarity: '20%', detail: '졸리당' }
+      { number: '1', country: 'KR', patentName: '개쩌는 선풍기', similarity: '98%', detail: '🔎' },
+      { number: '2', country: '미국', patentName: '진짜 쩌는 선풍기', similarity: '75%', detail: '🔎' },
+      { number: '3', country: '??', patentName: '쩌는 선풍기', similarity: '60%', detail: '🔎' },
+      { number: '4', country: 'JP', patentName: '굿이에요 선풍기', similarity: '40%', detail: '🔎' },
+      { number: '5', country: 'EU', patentName: '적당해요 선풍기', similarity: '20%', detail: '🔎' }
     ].map(item => ({
       ...item,
       country: countryToEmoji(item.country), // 국가명에 따른 이모티콘으로 변환
@@ -309,10 +350,29 @@ const SimPage = () => {
           </SecondWrapper>
           <ThirdWrapper>
             <SubText>당신의 아이디어를 분석한 결과, 유사한 특허는 아래와 같아요</SubText>
-            <Table columns={columns} data={data} />
+            <FourthWrapper>
+              <DefaultText>🇰🇷 국내 특허</DefaultText>
+              <Table columns={columns} data={data} />
+            </FourthWrapper>
+            <FourthWrapper>
+              <DefaultText>🌎 해외 특허</DefaultText>
+              <Table columns={columns} data={data} />
+            </FourthWrapper>
           </ThirdWrapper>
       </Wrapper>
       {isLoading && <LoadingOverlay />}
+      {isDialogOpen && (
+      <Dialog
+        title="발명 요약 정보"
+        confirmText="확인"
+        onCancel={closeDialog}
+        onConfirm={closeDialog}
+        visible={isDialogOpen}
+      >
+        {/* Dialog 내부에 표시할 내용 */}
+        여기에 상세 정보를 표시합니다.
+      </Dialog>
+    )}
     </div>
   );
 };
