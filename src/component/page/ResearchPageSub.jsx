@@ -208,7 +208,7 @@ const ResearchPageSub = () => {
       fetchNewsData();
       fetchPapersData();
     }
-  }, []);
+  }, [message]);
 
 
   // 페이지 이동 함수
@@ -218,7 +218,7 @@ const ResearchPageSub = () => {
   };
 
 
-  {/* 뉴스 테이블 컴포넌트에 사용할 컬럼명 */ }
+  /* 뉴스 테이블 컴포넌트에 사용할 컬럼명 */
   const columns_news = React.useMemo(
     () => [
       { Header: '번호', accessor: 'number' },
@@ -235,7 +235,7 @@ const ResearchPageSub = () => {
     []
   );
 
-  {/* 뉴스 데이터 */ }
+  /* 뉴스 데이터 */
   const data_news = React.useMemo(() => {
     return fetchedNews.map((item, index) => ({
       number: (index + 1).toString(),
@@ -244,7 +244,7 @@ const ResearchPageSub = () => {
     }));
   }, [fetchedNews]);
 
-  {/* 논문 테이블 컴포넌트에 사용할 컬럼명 */ }
+  /* 논문 테이블 컴포넌트에 사용할 컬럼명 */
   const columns_paper = React.useMemo(
     () => [
       { Header: '번호', accessor: 'number' },
@@ -261,7 +261,7 @@ const ResearchPageSub = () => {
     []
   );
 
-  {/* 논문 임시 데이터 */ }
+  /* 논문 임시 데이터 */
   const data_paper = React.useMemo(() => {
     return papersData.map((item, index) => ({
       number: (index + 1).toString(),
@@ -291,11 +291,11 @@ const ResearchPageSub = () => {
         <SecondWrapper>
           <NewsWrapper>
             <SubText style={{ textAlign: 'left' }}>📰 국내 뉴스</SubText>
-            <CustomTable columns={columns_news} data={data_news} />
+            <CustomTable columns={columns_news} data={data_news.slice(0, 5)} />
           </NewsWrapper>
           <PaperWrapper>
             <SubText style={{ textAlign: 'right' }}>📄 국내 논문</SubText>
-            <CustomTable columns={columns_paper} data={data_paper} />
+            <CustomTable columns={columns_paper} data={data_paper.slice(0, 5)} />
           </PaperWrapper>
         </SecondWrapper>
       </Wrapper>
