@@ -295,27 +295,22 @@ const SimPage = () => {
 
       const responseData = await response.json(); // 서버 응답을 JSON 형태로 변환
 
-      // 서버 응답 구조에 따른 데이터 처리
-      const [domesticResponse, internationalResponse] = responseData;
-
-      // 국내 특허 데이터 변환 및 상태 업데이트
-      const transformedDomesticData = domesticResponse.results.map((item, index) => ({
-        ...item,
+      const transformedDomesticData = responseData.korean_results.results.map((item, index) => ({
         number: index + 1,
         id: item.id,
         distance: item.distance.toFixed(2),
-        IPC_code_only: item.IPC_code_only.join(', '),
+        IPC_code_only: item.IPC_code_only.replace(/[\[\]']+/g, ''), // 배열 표현을 문자열로 변환
         details: item.요약,
       }));
       setDomesticData(transformedDomesticData);
-
+  
       // 해외 특허 데이터 변환 및 상태 업데이트
-      const transformedInternationalData = internationalResponse.results.map((item, index) => ({
-        ...item,
+      // 예시 응답에는 해외 결과가 비어있지만, 비슷한 방식으로 처리할 수 있습니다.
+      const transformedInternationalData = responseData.foreign_results.results.map((item, index) => ({
         number: index + 1,
         id: item.id,
         distance: item.distance.toFixed(2),
-        IPC_code_only: item.IPC_category.join(', '), // 주의: IPC_code_only가 아니라 IPC_category 사용
+        IPC_code_only: item.IPC_code_only.replace(/[\[\]']+/g, ''), // 배열 표현을 문자열로 변환
         details: item.요약,
       }));
       setInternationalData(transformedInternationalData);
