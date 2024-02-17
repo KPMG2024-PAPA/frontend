@@ -55,6 +55,7 @@ const ThirdWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   box-sizing: border-box;
+  ${({ isVisible }) => isVisible && animationMixin}; // isVisible이 true일 때만 애니메이션 적용
 `;
 
 const FourthWrapper = styled.div`
@@ -232,7 +233,7 @@ const SimPage = () => {
   const [domesticData, setDomesticData] = useState([]); // 국내 특허 데이터 상태
   const [internationalData, setInternationalData] = useState([]); // 해외 특허 데이터 상태
   const [selectedItemDetails, setSelectedItemDetails] = useState('');
-
+  const hasData = domesticData.length > 0 || internationalData.length > 0;
   
   
   // 페이지 이동 함수
@@ -394,6 +395,7 @@ const SimPage = () => {
       <Wrapper>
           <MainTitleText>📈 <HighlightText>유사도 분석</HighlightText> 을 도와드릴게요</MainTitleText>
           <GuideText>* 현재 서비스는 한국/미국/중국/일본/유럽 다섯 국가의 특허 정보만 제공하고 있습니다</GuideText>
+          <SubText style={{marginTop: '40px', marginBottom:'-50px'}}>아이디어를 입력해주시면, 한 번에 국내외 유사 특허를 보여드려요</SubText>
           <SecondWrapper>
             <CustomTextInput 
               placeholder={"분석할 아이디어를 입력해주세요"}
@@ -402,7 +404,8 @@ const SimPage = () => {
             />
             <CustomButton title='🔍' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
           </SecondWrapper>
-          <ThirdWrapper>
+          {hasData && (
+          <ThirdWrapper isVisible={hasData}>
             <SubText>당신의 아이디어를 분석한 결과, 유사한 특허는 아래와 같아요</SubText>
             <FourthWrapper>
               <DefaultText>🇰🇷 국내 특허</DefaultText>
@@ -413,6 +416,7 @@ const SimPage = () => {
               <Table columns={columns} data={internationalData} />
             </FourthWrapper>
           </ThirdWrapper>
+          )}
       </Wrapper>
       {isLoading && <LoadingOverlay />}
       {isDialogOpen && (
