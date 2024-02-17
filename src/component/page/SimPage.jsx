@@ -296,7 +296,7 @@ const SimPage = () => {
       const responseData = await response.json(); // 서버 응답을 JSON 형태로 변환
 
       // 국내 특허 데이터 변환 및 상태 업데이트
-      const transformedDomesticData = responseData[0].results.map((item, index) => ({
+      const transformedDomesticData = responseData[0].map((item, index) => ({
         ...item,
         number: index + 1, // 번호 추가
         id: item.id,
@@ -307,7 +307,7 @@ const SimPage = () => {
       setDomesticData(transformedDomesticData);
 
       // 해외 특허 데이터 변환 및 상태 업데이트
-      const transformedInternationalData = responseData[1].results.map((item, index) => ({
+      const transformedInternationalData = responseData[1].map((item, index) => ({
         ...item,
         number: index + 1, // 번호 추가
         id: item.id,
