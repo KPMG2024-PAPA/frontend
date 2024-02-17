@@ -260,7 +260,11 @@ const SimPage = () => {
     () => [
         // 컬럼 정의 업데이트
       { Header: '번호', accessor: 'number' },
+      { Header: '국가', accessor: 'country', Cell: ({ value }) => (
+        <span style={{ fontSize: '24px' }}>{countryToEmoji(value)}</span> // 폰트 크기를 24px로 조정
+      )},
       { Header: '출원 번호', accessor: 'id' },
+      { Header: '발명의 명칭', accessor: '발명의명칭'},
       { Header: '대표 분류 코드', accessor: 'IPC_code_only' },
       { Header: '유사도', accessor: 'distance' },
       {
@@ -268,7 +272,7 @@ const SimPage = () => {
         accessor: 'details',
         // Use a custom cell renderer
         Cell: ({ row }) => (
-          <button style={{ cursor: 'pointer' }} onClick={() => openDetailsDialog(row.original)}>
+          <button style={{ cursor: 'pointer', backgroundColor: 'transparent', border: 'none' }} onClick={() => openDetailsDialog(row.original)}>
             🔎
           </button>
         ),
@@ -295,13 +299,16 @@ const SimPage = () => {
 
       const responseData = await response.json(); // 서버 응답을 JSON 형태로 변환
 
-      const transformedDomesticData = responseData.korean_results.results.map((item, index) => ({
-        number: index + 1,
-        id: item.id,
-        distance: item.distance.toFixed(2),
-        IPC_code_only: item.IPC_code_only.replace(/[\[\]']+/g, ''), // 배열 표현을 문자열로 변환
-        details: item.요약,
-      }));
+      const transformedDomesticData = responseData.korean_results.results.map((item, index) => {
+        return {
+          number: index + 1,
+          id: item.id,
+          country: 'KR',
+          distance: (1 - item.distance).toFixed(2),
+          IPC_code_only: [...new Set(item.IPC_code_only.replace(/[\[\]']+/g, '').split(','))].join(', '), // 배열 표현을 문자열로 변환
+          details: item.요약,
+        };
+      });
       setDomesticData(transformedDomesticData);
   
       // 해외 특허 데이터 변환 및 상태 업데이트
@@ -323,7 +330,7 @@ const SimPage = () => {
   };
 
   const openDetailsDialog = (item) => {
-    setSelectedItemDetails(item.요약); // Assume 'details' contains the summary text
+    setSelectedItemDetails(item.details); // Assume 'details' contains the summary text
     setIsDialogOpen(true);
   };
   
@@ -422,4 +429,3 @@ const SimPage = () => {
 };
 
 export default SimPage;
-
