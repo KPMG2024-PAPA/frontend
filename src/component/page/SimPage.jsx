@@ -295,25 +295,28 @@ const SimPage = () => {
 
       const responseData = await response.json(); // 서버 응답을 JSON 형태로 변환
 
+      // 서버 응답 구조에 따른 데이터 처리
+      const [domesticResponse, internationalResponse] = responseData;
+
       // 국내 특허 데이터 변환 및 상태 업데이트
-      const transformedDomesticData = responseData[0].map((item, index) => ({
+      const transformedDomesticData = domesticResponse.results.map((item, index) => ({
         ...item,
-        number: index + 1, // 번호 추가
+        number: index + 1,
         id: item.id,
-        distance: item.distance.toFixed(2), // 유사도 포맷 수정
-        IPC_code_only: item.IPC_code_only.join(', '), // 배열을 문자열로 변환
-        details: item.요약, // 요약 정보를 표시
+        distance: item.distance.toFixed(2),
+        IPC_code_only: item.IPC_code_only.join(', '),
+        details: item.요약,
       }));
       setDomesticData(transformedDomesticData);
 
       // 해외 특허 데이터 변환 및 상태 업데이트
-      const transformedInternationalData = responseData[1].map((item, index) => ({
+      const transformedInternationalData = internationalResponse.results.map((item, index) => ({
         ...item,
-        number: index + 1, // 번호 추가
+        number: index + 1,
         id: item.id,
-        distance: item.distance.toFixed(2), // 유사도 포맷 수정
-        IPC_code_only: item.IPC_code_only.join(', '), // 배열을 문자열로 변환
-        details: item.요약, // 요약 정보를 표시
+        distance: item.distance.toFixed(2),
+        IPC_code_only: item.IPC_category.join(', '), // 주의: IPC_code_only가 아니라 IPC_category 사용
+        details: item.요약,
       }));
       setInternationalData(transformedInternationalData);
 
