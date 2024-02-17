@@ -283,17 +283,17 @@ const SimPage = () => {
     setIsLoading(true);
 
     // FormData can handle both files and text
-    const formData = new FormData();
-    if (text) {
-      formData.append('text', text);
-    }
-    console.log();
+    const requestData = {
+      query: text, // Assuming 'text' is the state holding the query string
+    };
 
     try {
       const response = await fetch('http://localhost:8000/similarity-check', {
-        method: 'POST',
-        body: formData, // Send as multipart/form-data
-        // 'Content-Type': 'multipart/form-data' is automatically set by the browser
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData), // Send as JSON string
       });
 
       const responseData = await response.json(); // 서버 응답을 JSON 형태로 변환
