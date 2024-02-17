@@ -292,10 +292,8 @@ const SimPage = () => {
     try {
       const response = await fetch('http://localhost:8000/similarity-check', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text }), // 사용자 입력 텍스트를 JSON 형태로 전송
+        body: formData, // Send as multipart/form-data
+        // 'Content-Type': 'multipart/form-data' is automatically set by the browser
       });
 
       const responseData = await response.json(); // 서버 응답을 JSON 형태로 변환
