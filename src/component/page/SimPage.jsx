@@ -227,6 +227,12 @@ const Message = styled.p`
 const SimPage = () => {
   const navigate = useNavigate();
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Dialog 표시 상태
+  const [text, setText] = useState('');
+  const [domesticData, setDomesticData] = useState([]); // 국내 특허 데이터 상태
+  const [internationalData, setInternationalData] = useState([]); // 해외 특허 데이터 상태
+  const [selectedItemDetails, setSelectedItemDetails] = useState('');
+
+  
   
   // 페이지 이동 함수
   const navigateTo = (path) => {
@@ -244,48 +250,94 @@ const SimPage = () => {
     setIsDialogOpen(false);
   };
 
-  
-  // 테이블 컴포넌트에 사용할 컬럼명
+  const handleChange = (event) => {
+    // 사용자 입력에 따라 텍스트를 업데이트합니다.
+    setText(event.target.value);
+  };
+
+    // 테이블 컴포넌트에 사용할 임시
   const columns = React.useMemo(
     () => [
+        // 컬럼 정의 업데이트
       { Header: '번호', accessor: 'number' },
+      { Header: '출원 번호', accessor: 'id' },
+      { Header: '대표 분류 코드', accessor: 'IPC_code_only' },
+      { Header: '유사도', accessor: 'distance' },
       {
-        Header: '국가',
-        accessor: 'country',
-        Cell: ({ value }) => <span style={{ fontSize: '27px' }}>{value}</span>,
-      },
-      { Header: '출원 번호', accessor: 'applicationNumber'},
-      { Header: '발명의 명칭', accessor: 'patentName' },
-      { Header: '대표 분류 코드', accessor: 'ipcCode'},
-      { Header: '유사도', accessor: 'similarity' },
-      {
-        Header: '요약 상세보기',
-        accessor: 'detail',
-        // Cell 컴포넌트에서 클릭 이벤트 핸들러를 사용
+        Header: '요약',
+        accessor: 'details',
+        // Use a custom cell renderer
         Cell: ({ row }) => (
-          <span style={{ cursor: 'pointer' }} onClick={openDialog}>
+          <button style={{ cursor: 'pointer' }} onClick={() => openDetailsDialog(row.original)}>
             🔎
-          </span>
+          </button>
         ),
       },
     ],
     []
   );
 
-  // 임시 데이터
-  const data = React.useMemo(
-    () => [
-      { number: '1', country: 'KR', patentName: '개쩌는 선풍기', similarity: '98%', detail: '🔎' },
-      { number: '2', country: '미국', patentName: '진짜 쩌는 선풍기', similarity: '75%', detail: '🔎' },
-      { number: '3', country: '??', patentName: '쩌는 선풍기', similarity: '60%', detail: '🔎' },
-      { number: '4', country: 'JP', patentName: '굿이에요 선풍기', similarity: '40%', detail: '🔎' },
-      { number: '5', country: 'EU', patentName: '적당해요 선풍기', similarity: '20%', detail: '🔎' }
-    ].map(item => ({
-      ...item,
-      country: countryToEmoji(item.country), // 국가명에 따른 이모티콘으로 변환
-    })),
-    []
-  );
+  const handleSubmit = async (e) => {
+    e?.preventDefault(); // Safely attempt to call preventDefault if e exists
+
+    setIsLoading(true);
+
+    // FormData can handle both files and text
+    const formData = new FormData();
+    if (text) {
+      formData.append('text', text);
+    }
+    console.log();
+
+    try {
+      const response = await fetch('http://localhost:8000/similarity-check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text }), // 사용자 입력 텍스트를 JSON 형태로 전송
+      });
+
+      const responseData = await response.json(); // 서버 응답을 JSON 형태로 변환
+
+      // 국내 특허 데이터 변환 및 상태 업데이트
+      const transformedDomesticData = responseData[0].results.map((item, index) => ({
+        ...item,
+        number: index + 1, // 번호 추가
+        id: item.id,
+        distance: item.distance.toFixed(2), // 유사도 포맷 수정
+        IPC_code_only: item.IPC_code_only.join(', '), // 배열을 문자열로 변환
+        details: item.요약, // 요약 정보를 표시
+      }));
+      setDomesticData(transformedDomesticData);
+
+      // 해외 특허 데이터 변환 및 상태 업데이트
+      const transformedInternationalData = responseData[1].results.map((item, index) => ({
+        ...item,
+        number: index + 1, // 번호 추가
+        id: item.id,
+        distance: item.distance.toFixed(2), // 유사도 포맷 수정
+        IPC_code_only: item.IPC_code_only.join(', '), // 배열을 문자열로 변환
+        details: item.요약, // 요약 정보를 표시
+      }));
+      setInternationalData(transformedInternationalData);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false); // 로딩 상태 종료
+    }
+  };
+
+  const openDetailsDialog = (item) => {
+    setSelectedItemDetails(item.요약); // Assume 'details' contains the summary text
+    setIsDialogOpen(true);
+  };
+  
+
+  const handleButtonClick = async () => {
+    await handleSubmit(); // Call handleSubmit directly or modify to not use the event parameter
+  };
 
 
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
@@ -320,11 +372,7 @@ const SimPage = () => {
     );
   };
 
-  const handleButtonClick = () => {
-    setIsLoading(true);
-    {/* 버튼 클릭 시, 서버 전달 및 응답 요청*/}
-    {/*응답을 받으면 (false)로 설정 -> 로딩 화면을 비활성화*/}
-  };
+  
 
   return (
     <div>
@@ -345,34 +393,37 @@ const SimPage = () => {
           <MainTitleText>📈 <HighlightText>유사도 분석</HighlightText> 을 도와드릴게요</MainTitleText>
           <GuideText>* 현재 서비스는 한국/미국/중국/일본/유럽 다섯 국가의 특허 정보만 제공하고 있습니다</GuideText>
           <SecondWrapper>
-            <CustomTextInput placeholder="텍스트를 입력해주세요"/>
+            <CustomTextInput 
+              placeholder={"분석할 아이디어를 입력해주세요"}
+              value={text}
+              onChange={handleChange}
+            />
             <CustomButton title='🔍' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
           </SecondWrapper>
           <ThirdWrapper>
             <SubText>당신의 아이디어를 분석한 결과, 유사한 특허는 아래와 같아요</SubText>
             <FourthWrapper>
               <DefaultText>🇰🇷 국내 특허</DefaultText>
-              <Table columns={columns} data={data} />
+              <Table columns={columns} data={domesticData} />
             </FourthWrapper>
             <FourthWrapper>
               <DefaultText>🌎 해외 특허</DefaultText>
-              <Table columns={columns} data={data} />
+              <Table columns={columns} data={internationalData} />
             </FourthWrapper>
           </ThirdWrapper>
       </Wrapper>
       {isLoading && <LoadingOverlay />}
       {isDialogOpen && (
-      <Dialog
-        title="발명 요약 정보"
-        confirmText="확인"
-        onCancel={closeDialog}
-        onConfirm={closeDialog}
-        visible={isDialogOpen}
-      >
-        {/* Dialog 내부에 표시할 내용 */}
-        여기에 상세 정보를 표시합니다.
-      </Dialog>
-    )}
+        <Dialog
+          title="발명 요약 정보"
+          confirmText="확인"
+          onCancel={() => setIsDialogOpen(false)}
+          onConfirm={() => setIsDialogOpen(false)}
+          visible={isDialogOpen}
+        >
+          {selectedItemDetails}
+        </Dialog>
+      )}
     </div>
   );
 };
