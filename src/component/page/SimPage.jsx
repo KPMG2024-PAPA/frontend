@@ -278,23 +278,18 @@ const SimPage = () => {
   );
 
   const handleSubmit = async (e) => {
-    e?.preventDefault(); // Safely attempt to call preventDefault if e exists
+    e?.preventDefault(); // 폼 제출 방지
 
     setIsLoading(true);
 
-    // FormData can handle both files and text
-    const requestData = {
-      query: text, // Assuming 'text' is the state holding the query string
-    };
+    // `query`를 URL 쿼리 파라미터로 전달
+    const url = `http://localhost:8000/similarity-check?query=${encodeURIComponent(text)}&n_results=10`;
 
     try {
-      const response = await fetch('http://localhost:8000/similarity-check', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestData), // Send as JSON string
+      const response = await fetch(url, {
+          method: 'GET', // URL 쿼리 파라미터를 사용하므로 GET 메소드 사용
       });
+
 
       const responseData = await response.json(); // 서버 응답을 JSON 형태로 변환
 
