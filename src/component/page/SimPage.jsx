@@ -217,7 +217,8 @@ const Message = styled.p`
       case 'US': return '🇺🇸';
       case 'CN': return '🇨🇳';
       case 'JP': return '🇯🇵';
-      case 'EU': return '🇪🇺';
+      case 'EP': return '🇪🇺';
+      case 'WO': return '🌐';
       default: return '-';
     }
   };
@@ -304,6 +305,7 @@ const SimPage = () => {
           number: index + 1,
           id: item.id,
           country: 'KR',
+          발명의명칭: item.발명의명칭,
           distance: (1 - item.distance).toFixed(2),
           IPC_code_only: [...new Set(item.IPC_code_only.replace(/[\[\]']+/g, '').split(','))].join(', '), // 배열 표현을 문자열로 변환
           details: item.요약,
@@ -311,13 +313,13 @@ const SimPage = () => {
       });
       setDomesticData(transformedDomesticData);
   
-      // 해외 특허 데이터 변환 및 상태 업데이트
-      // 예시 응답에는 해외 결과가 비어있지만, 비슷한 방식으로 처리할 수 있습니다.
       const transformedInternationalData = responseData.foreign_results.results.map((item, index) => ({
         number: index + 1,
         id: item.id,
-        distance: item.distance.toFixed(2),
-        IPC_code_only: item.IPC_code_only.replace(/[\[\]']+/g, ''), // 배열 표현을 문자열로 변환
+        country: item.국가,
+        발명의명칭: item.발명의명칭,
+        distance: (1 - item.distance).toFixed(2),
+        IPC_code_only: item.ipc_category.replace(/[\[\]']+/g, ''), // 배열 표현을 문자열로 변환
         details: item.요약,
       }));
       setInternationalData(transformedInternationalData);
