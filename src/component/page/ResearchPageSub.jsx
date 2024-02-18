@@ -36,19 +36,28 @@ const Wrapper = styled.div`
   ${animationMixin};
 `;
 
+const FirstWrapper = styled.div`
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 100px;
+  `;
+
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
-  padding-top: 30px;
+  width: 70%;
+  margin-top: 0px;
+  box-sizing: border-box;
+  justify-content: center;
+  gap: 20px;
 `;
 
 const NewsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
-  padding-bottom: 30px;
   width: 100%;
   ${animationMixin};
 `;
@@ -56,10 +65,19 @@ const NewsWrapper = styled.div`
 const PaperWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
   width: 100%;
   ${animationMixin};
 `;
+
+const ChartWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  gap: 20px;
+  box-sizing: border-box;
+  `;
 
 
 const HeaderBox = styled.div`
@@ -203,12 +221,36 @@ const ResearchPageSub = () => {
       }
     };
 
-
+    const fetchChartData = async () => {
+      try {
+        const keywordsArray = JSON.parse(message);
+    
+        const response = await fetch('http://localhost:8000/research-page-sub-dashboards', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ inputValue: keywordsArray }),
+        });
+    
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+    
+        const data = await response.json();
+        // 여기서는 ipc_category_graph_image와 ipc_subcategory_graph_image 상태를 설정해야 합니다.
+        setChartImage(data.ipc_category_graph_image); 
+        setChartImage2(data.ipc_subcategory_graph_image); // 예시로 한 이미지만 설정하였습니다.
+      } catch (error) {
+        console.error('Error fetching chart data:', error);
+      }
+    };
 
     // Check if message is not empty
     if (message) {
       fetchNewsData();
       fetchPapersData();
+      fetchChartData();
     }
   }, [message]);
 
@@ -289,8 +331,24 @@ const ResearchPageSub = () => {
         </ClickableBox>
       </HeaderComponent>
       <Wrapper>
-        <MainTitleText>🔥 참고하면 좋을 <HighlightText> 국내 논문/뉴스</HighlightText> Top 5 에요</MainTitleText>
-        <SecondWrapper>
+        <MainTitleText>🕵🏻 작성해주신 아이디어의 <HighlightText> 리서치 대시보드</HighlightText> 에요</MainTitleText>
+        <FirstWrapper>
+          <ChartWrapper style={{ gap: '20px', padding: '10px', width: '36%', objectFit: 'contain', borderRadius: '15px', boxShadow: 'inset 0px 0px 3px rgba(0, 0, 0, 0.1)' }}>
+          <SubText style={{ textAlign: 'center', marginBottom: '0px'}}>📊 특허 출원추이 차트</SubText>
+              {chartImage && (
+              <img style={{ width: '100%'}}
+                src={`data:image/png;base64,${chartImage}`} // Base64 인코딩된 이미지 데이터를 src 속성에 설정
+                alt="Chart"
+              />
+              )}
+              {chartImage2 && (
+                <img style={{ width: '100%'}}
+                  src={`data:image/png;base64,${chartImage2}`} // Base64 인코딩된 이미지 데이터를 src 속성에 설정
+                  alt="Chart"
+                />
+              )}
+          </ChartWrapper>
+          <SecondWrapper style={{ padding: '20px', width: '64%', objectFit: 'contain', borderRadius: '15px', boxShadow: 'inset 0px 0px 3px rgba(0, 0, 0, 0.2)' }}>
           <NewsWrapper>
             <SubText style={{ textAlign: 'center' }}>📰 국내 뉴스</SubText>
             <CustomTable columns={columns_news} data={data_news.slice(0, 5)} />
@@ -300,10 +358,10 @@ const ResearchPageSub = () => {
             <CustomTable columns={columns_paper} data={data_paper.slice(0, 5)} />
           </PaperWrapper>
         </SecondWrapper>
+        </FirstWrapper>
       </Wrapper>
     </div>
   );
 };
 
 export default ResearchPageSub;
-
