@@ -152,6 +152,41 @@ const CustomTable = styled(Table)`
   height: 200px;
 `;
 
+/* 로딩화면 컴포넌트 */
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; // 수정됨
+`;
+
+
+const Message = styled.p`
+  color: #d0d0d0;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px; // 수정됨
+  opacity: 0; // 초기 상태는 투명
+  align-items: center;
+  animation: fadeInOut 4s infinite; // 4초 동안 무한 반복
+  background-color:  rgba(0, 0, 0, 0.3);
+  width: 368px;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+
+  @keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+`;
+
 
 
 const ResearchPageSub = () => {
@@ -163,97 +198,104 @@ const ResearchPageSub = () => {
   const [chartImage, setChartImage] = useState('');
   const [chartImage2, setChartImage2] = useState('');
 
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
+
+  // 로딩 화면 컴포넌트
+  const LoadingOverlay = () => {
+    const messages = [
+      <>
+        <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🤔</div>
+        <div>작성해주신 내용을 분석하고 있어요</div>
+      </>,
+      <>
+        <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>⌛️</div>
+        <div>3분 정도 소요될 수 있어요</div>
+      </>,
+      <>
+        <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🕵🏻</div>
+        <div>기사와 논문을 찾고 있어요</div>
+      </>
+    ];
+
+    const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
+      }, 4000); // 메시지 변경 주기를 4초로 설정 (애니메이션 주기에 맞춤)
+
+      return () => clearInterval(intervalId);
+    }, [messages.length]);
+
+    return (
+      <Overlay>
+        <Message>{messages[currentMessageIndex]}</Message>
+      </Overlay>
+    );
+  };
 
 
   useEffect(() => {
-    // Send a request to the backend to fetch NEWS
-    const fetchNewsData = async () => {
+    // 초기 로딩 상태를 true로 설정하여 로딩 시작
+    setIsLoading(true);
+  
+    const fetchData = async () => {
       try {
         const keywordsArray = JSON.parse(message);
-
-        const response = await fetch('http://localhost:8000/research-page-sub-news', {
-          method: 'POST', // or 'GET', depending on your backend setup
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ inputValue: keywordsArray }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const news = await response.json();
-
-        setFetchedNews(news.message);
-      } catch (error) {
-        console.error('Error from news endpoint:', error);
-      }
-    };
-
-
-    // Send a request to the backend to fetch PAPERS
-    const fetchPapersData = async () => {
-      try {
-        const keywordsArray = JSON.parse(message);
-
-        const response = await fetch('http://localhost:8000/research-page-sub-papers', {
-          method: 'POST', // or 'GET', depending on your backend setup
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ inputValue: keywordsArray }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const papersResponse = await response.json();
-        if (typeof papersResponse.message === 'string') {
-          const parsedPapers = JSON.parse(papersResponse.message);
-          setPapersData(parsedPapers);
-        } else {
-          setPapersData(papersResponse.message);
-        }
-      } catch (error) {
-        console.error('Error from papers endpoint:', error);
-      }
-    };
-
-    const fetchChartData = async () => {
-      try {
-        const keywordsArray = JSON.parse(message);
-    
-        const response = await fetch('http://localhost:8000/research-page-sub-dashboards', {
+  
+        // News 데이터 가져오기
+        const fetchNewsData = fetch('http://localhost:8000/research-page-sub-news', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ inputValue: keywordsArray }),
         });
-    
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+  
+        // Papers 데이터 가져오기
+        const fetchPapersData = fetch('http://localhost:8000/research-page-sub-papers', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ inputValue: keywordsArray }),
+        });
+  
+        // Chart 데이터 가져오기
+        const fetchChartData = fetch('http://localhost:8000/research-page-sub-dashboards', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ inputValue: keywordsArray }),
+        });
+  
+        // 모든 프로미스가 완료될 때까지 기다림
+        const [newsResponse, papersResponse, chartDataResponse] = await Promise.all([fetchNewsData, fetchPapersData, fetchChartData]);
+  
+        if (!newsResponse.ok || !papersResponse.ok || !chartDataResponse.ok) {
+          throw new Error('One of the network responses was not ok');
         }
-    
-        const data = await response.json();
-        // 여기서는 ipc_category_graph_image와 ipc_subcategory_graph_image 상태를 설정해야 합니다.
-        setChartImage(data.ipc_category_graph_image); 
-        setChartImage2(data.ipc_subcategory_graph_image); // 예시로 한 이미지만 설정하였습니다.
+  
+        // JSON으로 변환
+        const news = await newsResponse.json();
+        const papers = await papersResponse.json();
+        const chartData = await chartDataResponse.json();
+  
+        // 상태 업데이트
+        setFetchedNews(news.message);
+        setPapersData(typeof papers.message === 'string' ? JSON.parse(papers.message) : papers.message);
+        setChartImage(chartData.ipc_category_graph_image);
+        setChartImage2(chartData.ipc_subcategory_graph_image);
+  
+        // 모든 데이터 가져오기가 완료되면 로딩 상태를 false로 설정
+        setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching chart data:', error);
+        console.error('Error fetching data:', error);
+        setIsLoading(false); // 에러 발생 시에도 로딩 상태를 false로 설정하여 사용자가 에러를 인지할 수 있도록 함
       }
     };
-
-    // Check if message is not empty
+  
+    // 메시지가 비어있지 않은 경우 데이터를 가져옴
     if (message) {
-      fetchNewsData();
-      fetchPapersData();
-      fetchChartData();
+      fetchData();
     }
   }, [message]);
-
+  
 
   // 페이지 이동 함수
   const navigateTo = (path) => {
@@ -333,7 +375,7 @@ const ResearchPageSub = () => {
       <Wrapper>
         <MainTitleText>🕵🏻 작성해주신 아이디어의 <HighlightText> 리서치 대시보드</HighlightText> 에요</MainTitleText>
         <FirstWrapper>
-          <ChartWrapper style={{ gap: '20px', padding: '10px', width: '36%', objectFit: 'contain', borderRadius: '15px', boxShadow: 'inset 0px 0px 3px rgba(0, 0, 0, 0.1)' }}>
+          <ChartWrapper style={{ gap: '20px', padding: '10px', width: '500px', objectFit: 'contain', borderRadius: '15px', boxShadow: 'inset 0px 0px 3px rgba(0, 0, 0, 0.15)' }}>
           <SubText style={{ textAlign: 'center', marginBottom: '0px'}}>📊 특허 출원추이 차트</SubText>
               {chartImage && (
               <img style={{ width: '100%'}}
@@ -348,7 +390,7 @@ const ResearchPageSub = () => {
                 />
               )}
           </ChartWrapper>
-          <SecondWrapper style={{ padding: '20px', width: '64%', objectFit: 'contain', borderRadius: '15px', boxShadow: 'inset 0px 0px 3px rgba(0, 0, 0, 0.2)' }}>
+          <SecondWrapper style={{ padding: '20px', width: '890px', objectFit: 'contain', borderRadius: '15px', boxShadow: 'inset 0px 0px 3px rgba(0, 0, 0, 0.15)' }}>
           <NewsWrapper>
             <SubText style={{ textAlign: 'center' }}>📰 국내 뉴스</SubText>
             <CustomTable columns={columns_news} data={data_news.slice(0, 5)} />
@@ -360,6 +402,7 @@ const ResearchPageSub = () => {
         </SecondWrapper>
         </FirstWrapper>
       </Wrapper>
+      {isLoading && <LoadingOverlay />}
     </div>
   );
 };
