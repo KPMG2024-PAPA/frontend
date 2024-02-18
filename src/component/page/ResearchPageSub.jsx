@@ -142,6 +142,8 @@ const ResearchPageSub = () => {
   const { message } = location.state || {}; // Default to an empty object if state is undefined
   const [fetchedNews, setFetchedNews] = useState([]);
   const [papersData, setPapersData] = useState([]);
+  const [chartImage, setChartImage] = useState('');
+  const [chartImage2, setChartImage2] = useState('');
 
 
 
@@ -290,11 +292,11 @@ const ResearchPageSub = () => {
         <MainTitleText>🔥 참고하면 좋을 <HighlightText> 국내 논문/뉴스</HighlightText> Top 5 에요</MainTitleText>
         <SecondWrapper>
           <NewsWrapper>
-            <SubText style={{ textAlign: 'left' }}>📰 국내 뉴스</SubText>
+            <SubText style={{ textAlign: 'center' }}>📰 국내 뉴스</SubText>
             <CustomTable columns={columns_news} data={data_news.slice(0, 5)} />
           </NewsWrapper>
           <PaperWrapper>
-            <SubText style={{ textAlign: 'right' }}>📄 국내 논문</SubText>
+            <SubText style={{ textAlign: 'center' }}>📄 국내 논문</SubText>
             <CustomTable columns={columns_paper} data={data_paper.slice(0, 5)} />
           </PaperWrapper>
         </SecondWrapper>
