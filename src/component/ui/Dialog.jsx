@@ -67,6 +67,8 @@ const DialogBlock = styled.div`
   background: white;
   color: black;
   border-radius: 20px;
+  max-height: 50%;
+  overflow-y: auto;
 
   h3 {
     margin: 2;
