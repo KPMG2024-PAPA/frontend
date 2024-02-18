@@ -133,7 +133,7 @@ const GuideText = styled.p`
 
 
 const WordCloud = styled.img`
-  width: 75%; /* 원하는 너비 설정 */
+  width: 65%; /* 원하는 너비 설정 */
   height: auto; /* 높이를 auto로 설정하여 비율 유지 */
   object-fit: contain; /* 컨테이너 내에서 비율 유지하며 맞춤 */
   ${animationMixin}
@@ -230,7 +230,7 @@ const ResearchPageMain = () => {
       </>,
       <>
         <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>⌛️</div>
-        <div>n분정도 소요될 수 있어요</div>
+        <div>3분 정도 소요될 수 있어요</div>
       </>,
       <>
         <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🕵🏻</div>
@@ -305,7 +305,7 @@ const ResearchPageMain = () => {
         <MainTitleText>🔍 <HighlightText>연구동향 리서치</HighlightText> 를 도와드릴게요</MainTitleText>
         <SecondWrapper>
           <WordCloud src={process.env.PUBLIC_URL + 'output.png'} />
-          <GuideText >* 최근 1년 간 등록된 특허 기준 / Update: 2024.02.11 00:00</GuideText>
+          <GuideText >* 최근 1년 간 등록된 특허 기준 / Update: 2024.02.18 00:00</GuideText>
         </SecondWrapper>
         <ThirdWrapper>
           <SubText>아이디어를 입력해주시면, 관련 뉴스와 논문을 찾아드려요</SubText>

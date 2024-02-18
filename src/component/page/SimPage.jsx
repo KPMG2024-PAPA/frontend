@@ -164,6 +164,7 @@ const SubText = styled.p`
   text-align: center;
   color: #252a2f;
   font-family: 'Pretendard-ExtraBold';
+  ${animationMixin};
 `;
 
 const DefaultText = styled.div`
@@ -354,7 +355,7 @@ const SimPage = () => {
       </>,
       <>
       <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>⌛️</div>
-      <div>n분정도 소요될 수 있어요</div>
+      <div>최대 1분 정도 소요될 수 있어요</div>
       </>
     ];
     

@@ -375,7 +375,7 @@ const SpecPage = () => {
       </>,
       <>
         <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>⌛️</div>
-        <div>3분정도 소요될 수 있어요</div>
+        <div>최대 3분 정도 소요될 수 있어요</div>
       </>
     ];
 

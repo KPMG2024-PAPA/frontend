@@ -139,7 +139,7 @@ const MainPage = () => {
                 <div>명세서 작성 보조 서비스</div>
                 <div style={{fontSize: '23px', textAlign: 'right', marginTop: '20px'}}> 복잡하고 어려운 명세서 작성,</div>
                 <div style={{fontSize: '23px', textAlign: 'right'}}> AI가 전문성을 담아 작성해줘요</div>
-                <div style={{fontSize: '18px', color: '#8f96a0', textAlign: 'right', marginTop: '20px'}}> 무려, 3분만에 ✍🏻</div>
+                <div style={{fontSize: '18px', color: '#8f96a0', textAlign: 'right', marginTop: '20px'}}> 무려, 3분 안에 ✍🏻</div>
               </>
             </BoxText>
           </ClickableBox>
@@ -149,7 +149,7 @@ const MainPage = () => {
               <div>국내외 특허 유사도 분석 서비스</div>
                 <div style={{fontSize: '23px', textAlign: 'right', marginTop: '20px'}}> 클릭 한-번에 해외 특허까지</div>
                 <div style={{fontSize: '23px', textAlign: 'right'}}> 통합 검색할 수 있어요 </div>
-                <div style={{fontSize: '18px', color: '#8f96a0', textAlign: 'right', marginTop: '20px'}}> AI가 번역해줘요 💬</div>
+                <div style={{fontSize: '18px', color: '#8f96a0', textAlign: 'right', marginTop: '20px'}}> 빠르게 분석해줘요 💬</div>
               </>
             </BoxText>
           </ClickableBox>
