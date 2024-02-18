@@ -23,7 +23,7 @@ const AllGlobalStyle = createGlobalStyle`
     src: url('/font/Pretendard-Medium.ttf') format('truetype');;
   }
  `;
- 
+
 /* 레이아웃 코드 */
 const Wrapper = styled.div`
   padding-left: 180px;
@@ -133,7 +133,7 @@ const GuideText = styled.p`
 
 
 const WordCloud = styled.img`
-  width: 75%; /* 원하는 너비 설정 */
+  width: 65%; /* 원하는 너비 설정 */
   height: auto; /* 높이를 auto로 설정하여 비율 유지 */
   object-fit: contain; /* 컨테이너 내에서 비율 유지하며 맞춤 */
   ${animationMixin}
@@ -211,6 +211,7 @@ const Message = styled.p`
 
 const ResearchPageMain = () => {
   const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState('');
 
   // 페이지 이동 함수
   const navigateTo = (path) => {
@@ -224,29 +225,29 @@ const ResearchPageMain = () => {
   const LoadingOverlay = () => {
     const messages = [
       <>
-      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🤔</div>
-      <div>작성해주신 내용을 분석하고 있어요</div>
+        <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🤔</div>
+        <div>작성해주신 내용을 분석하고 있어요</div>
       </>,
       <>
-      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>⌛️</div>
-      <div>n분정도 소요될 수 있어요</div>
+        <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>⌛️</div>
+        <div>3분 정도 소요될 수 있어요</div>
       </>,
       <>
-      <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🕵🏻</div>
-      <div>기사와 논문을 찾고 있어요</div>
+        <div style={{ fontSize: '50px', marginBottom: '5px', color: '#252a2f' }}>🕵🏻</div>
+        <div>기사와 논문을 찾고 있어요</div>
       </>
     ];
-    
+
     const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  
+
     useEffect(() => {
       const intervalId = setInterval(() => {
         setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
       }, 4000); // 메시지 변경 주기를 4초로 설정 (애니메이션 주기에 맞춤)
-  
+
       return () => clearInterval(intervalId);
-    }, []);
-  
+    }, [messages.length]);
+
     return (
       <Overlay>
         <Message>{messages[currentMessageIndex]}</Message>
@@ -254,21 +255,34 @@ const ResearchPageMain = () => {
     );
   };
 
-  // const handleButtonClick = () => {
-  //   setIsLoading(true);
-  //   {/* 버튼 클릭 시, 서버 전달 및 응답 요청*/}
-  //   {/*응답을 받으면 (false)로 설정 -> 로딩 화면을 비활성화*/}
-  //   {/*응답을 받으면 navigateTo('/research-page-sub')*/}
-  // };
-  
-  {/*임시코드*/}
-  const handleButtonClick = () => {
+
+  const handleButtonClick = async () => {
     setIsLoading(true);
-  
-    setTimeout(() => {
-      setIsLoading(false);
-      navigateTo('/research-page-sub');
-    }, 7000);  // 7초 뒤 페이지 이동
+
+    // Assuming your backend endpoint is '/api/research' and it expects
+    // a payload with an "inputValue" key
+    try {
+      const response = await fetch('http://localhost:8000/research-page-main', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ inputValue }),
+      });
+
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      // Assuming 'data' contains the keywords you want to pass
+      const data = await response.json();
+      navigate('/research-page-sub', { state: { message: data.message } });
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false); // Ensure loading is stopped regardless of the outcome
+    }
   };
 
 
@@ -288,20 +302,24 @@ const ResearchPageMain = () => {
         </ClickableBox>
       </HeaderComponent>
       <Wrapper>
-          <MainTitleText>🔍 <HighlightText>연구동향 리서치</HighlightText> 를 도와드릴게요</MainTitleText>
-          <SecondWrapper>
-            <WordCloud src={process.env.PUBLIC_URL + 'output.png'} />
-            <GuideText >* 최근 1년 간 등록된 특허 기준 / Update: 2024.02.11 00:00</GuideText>
-          </SecondWrapper>
-          <ThirdWrapper>
-            <SubText>아이디어를 입력해주시면, 관련 뉴스와 논문을 찾아드려요</SubText>
-          </ThirdWrapper>
-          <FourthWrapper>
-            <CustomTextInput placeholder="아이디어를 입력해주세요" />
-            <CustomButton title="👀" onClick={handleButtonClick} />
-          </FourthWrapper>
+        <MainTitleText>🔍 <HighlightText>연구동향 리서치</HighlightText> 를 도와드릴게요</MainTitleText>
+        <SecondWrapper>
+          <WordCloud src={process.env.PUBLIC_URL + 'output.png'} />
+          <GuideText >* 최근 1년 간 등록된 특허 기준 / Update: 2024.02.18 00:00</GuideText>
+        </SecondWrapper>
+        <ThirdWrapper>
+          <SubText>아이디어를 입력해주시면, 관련 뉴스와 논문을 찾아드려요</SubText>
+        </ThirdWrapper>
+        <FourthWrapper>
+          <CustomTextInput
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="특허 출원을 위한 당신의 '발명'에 대한 요약 설명을 작성해주세요! 발명의 요약에는 발명의 기술 분야와 구성을 간략하게 포함해주세요."
+          />
+          <CustomButton title="👀" onClick={handleButtonClick} />
+        </FourthWrapper>
       </Wrapper>
-                    {isLoading && <LoadingOverlay />}
+      {isLoading && <LoadingOverlay />}
     </div>
   );
 };
