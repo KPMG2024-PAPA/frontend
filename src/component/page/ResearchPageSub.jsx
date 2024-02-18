@@ -153,6 +153,8 @@ const ResearchPageSub = () => {
   const { message } = location.state || {}; // Default to an empty object if state is undefined
   const [fetchedNews, setFetchedNews] = useState([]);
   const [papersData, setPapersData] = useState([]);
+  const [chartImage, setChartImage] = useState('');
+  const [chartImage2, setChartImage2] = useState('');
 
 
 
@@ -212,12 +214,36 @@ const ResearchPageSub = () => {
       }
     };
 
-
+    const fetchChartData = async () => {
+      try {
+        const keywordsArray = JSON.parse(message);
+    
+        const response = await fetch('http://localhost:8000/research-page-sub-dashboards', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ inputValue: keywordsArray }),
+        });
+    
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+    
+        const data = await response.json();
+        // 여기서는 ipc_category_graph_image와 ipc_subcategory_graph_image 상태를 설정해야 합니다.
+        setChartImage(data.ipc_category_graph_image); 
+        setChartImage2(data.ipc_subcategory_graph_image); // 예시로 한 이미지만 설정하였습니다.
+      } catch (error) {
+        console.error('Error fetching chart data:', error);
+      }
+    };
 
     // Check if message is not empty
     if (message) {
       fetchNewsData();
       fetchPapersData();
+      fetchChartData();
     }
   }, [message]);
 
@@ -298,12 +324,23 @@ const ResearchPageSub = () => {
         </ClickableBox>
       </HeaderComponent>
       <Wrapper>
-        <MainTitleText>📊 작성해주신 아이디어의 분류별 <HighlightText> 특허 출원 추이</HighlightText> 에요</MainTitleText>
+        <MainTitleText>📊 작성해주신 아이디어의 <HighlightText> 리서치 대시보드</HighlightText> 에요</MainTitleText>
+        <SubText style={{ textAlign: 'center', marginBottom: '-20px'}}>특허 출원추이 차트</SubText>
         <ChartWrapper>
-          <img style={{padding: '20px', width:'35%', objectFit: 'contain', borderRadius: '15px', boxShadow:'0px 0px 3px rgba(0, 0, 0, 0.1)'}}
-            src={process.env.PUBLIC_URL + 'examplechart1.png'} />
-          <img style={{padding: '20px', width:'35%', objectFit: 'contain', borderRadius: '15px', boxShadow:'0px 0px 3px rgba(0, 0, 0, 0.1)'}}
-            src={process.env.PUBLIC_URL + 'examplechart2.png'} />
+            {chartImage && (
+            <img
+              style={{ padding: '20px', width: '38%', objectFit: 'contain', borderRadius: '15px', boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)' }}
+              src={`data:image/png;base64,${chartImage}`} // Base64 인코딩된 이미지 데이터를 src 속성에 설정
+              alt="Chart"
+            />
+            )}
+            {chartImage2 && (
+              <img
+                style={{ padding: '20px', width: '38%', objectFit: 'contain', borderRadius: '15px', boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)' }}
+                src={`data:image/png;base64,${chartImage2}`} // Base64 인코딩된 이미지 데이터를 src 속성에 설정
+                alt="Chart"
+              />
+            )}
         </ChartWrapper>
         <SecondWrapper>
         <MainTitleText>🔥 관련 <HighlightText> 국내 논문/뉴스</HighlightText> Top 5 에요</MainTitleText>
