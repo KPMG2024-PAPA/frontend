@@ -314,7 +314,7 @@ const ResearchPageMain = () => {
           <CustomTextInput
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="아이디어를 입력해주세요"
+            placeholder="특허 출원을 위한 당신의 '발명'에 대한 요약 설명을 작성해주세요! 발명의 요약에는 발명의 기술 분야와 구성을 간략하게 포함해주세요."
           />
           <CustomButton title="👀" onClick={handleButtonClick} />
         </FourthWrapper>

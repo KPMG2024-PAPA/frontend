@@ -419,7 +419,7 @@ const SpecPage = () => {
             <ImgUpload onFileSelect={handleFileSelect} />
             <GuideText> ✌🏻 발명에 대한 설명을 해주세요 </GuideText>
             <CustomTextInput
-              placeholder="텍스트를 입력해주세요"
+              placeholder="특허 출원을 위한 당신의 '발명'에 대한 요약 설명을 작성해주세요! 발명의 요약에는 발명의 기술 분야와 구성을 간략하게 포함하고, 당신의 발명만의 특이한 효과도 기재해주시면 더 자세하고 정확한 명세서를 작성해드릴게요."
               value={text}
               onChange={handleChange}
             />
