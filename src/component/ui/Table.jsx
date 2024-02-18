@@ -3,7 +3,7 @@ import { useTable } from 'react-table';
 import styled from 'styled-components';
 
 const StyledTable = styled.table`
-  width: 85%;
+  width: 100%;
   border-radius: 15px;
   font-family: 'Pretendard-ExtraBold';
 `;

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import { useState, useEffect } from 'react';
+import Dialog from '../ui/Dialog';
 
 import TextInput from '../ui/TextInput';
 import Button from '../ui/Button';
@@ -54,6 +55,15 @@ const ThirdWrapper = styled.div`
   align-items: center;
   justify-content: flex-start;
   box-sizing: border-box;
+  ${({ isVisible }) => isVisible && animationMixin}; // isVisible이 true일 때만 애니메이션 적용
+`;
+
+const FourthWrapper = styled.div`
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 `;
 
 /* 상단바- 선택된 페이지 버튼*/
@@ -156,6 +166,15 @@ const SubText = styled.p`
   font-family: 'Pretendard-ExtraBold';
 `;
 
+const DefaultText = styled.div`
+  font-size: 20px;
+  padding-top: 10px;
+  padding-bottom: 15px;
+  text-align: center;
+  color: #252a2f;
+  font-family: 'Pretendard-ExtraBold';
+`;
+
 
 /* 로딩화면 컴포넌트 */
 const Overlay = styled.div`
@@ -195,11 +214,12 @@ const Message = styled.p`
   /* 국가명에 따른 이모티콘 반환 함수 */
   const countryToEmoji = (country) => {
     switch (country) {
-      case '한국': return '🇰🇷';
-      case '미국': return '🇺🇸';
-      case '중국': return '🇨🇳';
-      case '일본': return '🇯🇵';
-      case '유럽': return '🇪🇺';
+      case 'KR': return '🇰🇷';
+      case 'US': return '🇺🇸';
+      case 'CN': return '🇨🇳';
+      case 'JP': return '🇯🇵';
+      case 'EP': return '🇪🇺';
+      case 'WO': return '🌐';
       default: return '-';
     }
   };
@@ -208,43 +228,119 @@ const Message = styled.p`
 
 const SimPage = () => {
   const navigate = useNavigate();
+  const [isDialogOpen, setIsDialogOpen] = useState(false); // Dialog 표시 상태
+  const [text, setText] = useState('');
+  const [domesticData, setDomesticData] = useState([]); // 국내 특허 데이터 상태
+  const [internationalData, setInternationalData] = useState([]); // 해외 특허 데이터 상태
+  const [selectedItemDetails, setSelectedItemDetails] = useState('');
+  const hasData = domesticData.length > 0 || internationalData.length > 0;
+  
   
   // 페이지 이동 함수
   const navigateTo = (path) => {
     console.log(`${path} clicked!`);
     navigate(path);
   };
-  
-  // 테이블 컴포넌트에 사용할 컬럼명
+
+  // Dialog를 열기 위한 함수
+  const openDialog = () => {
+    setIsDialogOpen(true);
+  };
+
+  // Dialog를 닫기 위한 함수
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+  };
+
+  const handleChange = (event) => {
+    // 사용자 입력에 따라 텍스트를 업데이트합니다.
+    setText(event.target.value);
+  };
+
+    // 테이블 컴포넌트에 사용할 임시
   const columns = React.useMemo(
     () => [
+        // 컬럼 정의 업데이트
       { Header: '번호', accessor: 'number' },
+      { Header: '국가', accessor: 'country', Cell: ({ value }) => (
+        <span style={{ fontSize: '24px' }}>{countryToEmoji(value)}</span> // 폰트 크기를 24px로 조정
+      )},
+      { Header: '출원 번호', accessor: 'id' },
+      { Header: '발명의 명칭', accessor: '발명의명칭'},
+      { Header: '대표 분류 코드', accessor: 'IPC_code_only' },
+      { Header: '유사도', accessor: 'distance' },
       {
-        Header: '국가',
-        accessor: 'country',
-        Cell: ({ value }) => <span style={{ fontSize: '27px' }}>{value}</span>,
+        Header: '요약',
+        accessor: 'details',
+        // Use a custom cell renderer
+        Cell: ({ row }) => (
+          <button style={{ cursor: 'pointer', backgroundColor: 'transparent', border: 'none' }} onClick={() => openDetailsDialog(row.original)}>
+            🔎
+          </button>
+        ),
       },
-      { Header: '특허 이름', accessor: 'patentName' },
-      { Header: '유사도', accessor: 'similarity' },
-      { Header: '상세보기', accessor: 'detail'},
     ],
     []
   );
 
-  // 임시 데이터
-  const data = React.useMemo(
-    () => [
-      { number: '1', country: '한국', patentName: '개쩌는 선풍기', similarity: '98%', detail: '컬럼들' },
-      { number: '2', country: '미국', patentName: '진짜 쩌는 선풍기', similarity: '75%', detail: '더 추가' },
-      { number: '3', country: '??', patentName: '쩌는 선풍기', similarity: '60%', detail: '가능이염' },
-      { number: '4', country: '일본', patentName: '굿이에요 선풍기', similarity: '40%', detail: '얏호!' },
-      { number: '5', country: '유럽', patentName: '적당해요 선풍기', similarity: '20%', detail: '졸리당' }
-    ].map(item => ({
-      ...item,
-      country: countryToEmoji(item.country), // 국가명에 따른 이모티콘으로 변환
-    })),
-    []
-  );
+  const handleSubmit = async (e) => {
+    e?.preventDefault(); // 폼 제출 방지
+
+    setIsLoading(true);
+
+    const requestBody = { query: text, n_results: 10 };
+
+    try {
+      const response = await fetch('http://localhost:8000/similarity-check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const responseData = await response.json(); // 서버 응답을 JSON 형태로 변환
+
+      const transformedDomesticData = responseData.korean_results.results.map((item, index) => {
+        return {
+          number: index + 1,
+          id: item.id,
+          country: 'KR',
+          발명의명칭: item.발명의명칭,
+          distance: (1 - item.distance).toFixed(2),
+          IPC_code_only: [...new Set(item.IPC_code_only.replace(/[\[\]']+/g, '').split(','))].join(', '), // 배열 표현을 문자열로 변환
+          details: item.요약,
+        };
+      });
+      setDomesticData(transformedDomesticData);
+  
+      const transformedInternationalData = responseData.foreign_results.results.map((item, index) => ({
+        number: index + 1,
+        id: item.id,
+        country: item.국가,
+        발명의명칭: item.발명의명칭,
+        distance: (1 - item.distance).toFixed(2),
+        IPC_code_only: item.ipc_category.replace(/[\[\]']+/g, ''), // 배열 표현을 문자열로 변환
+        details: item.요약,
+      }));
+      setInternationalData(transformedInternationalData);
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoading(false); // 로딩 상태 종료
+    }
+  };
+
+  const openDetailsDialog = (item) => {
+    setSelectedItemDetails(item.details); // Assume 'details' contains the summary text
+    setIsDialogOpen(true);
+  };
+  
+
+  const handleButtonClick = async () => {
+    await handleSubmit(); // Call handleSubmit directly or modify to not use the event parameter
+  };
 
 
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
@@ -279,11 +375,7 @@ const SimPage = () => {
     );
   };
 
-  const handleButtonClick = () => {
-    setIsLoading(true);
-    {/* 버튼 클릭 시, 서버 전달 및 응답 요청*/}
-    {/*응답을 받으면 (false)로 설정 -> 로딩 화면을 비활성화*/}
-  };
+  
 
   return (
     <div>
@@ -303,19 +395,43 @@ const SimPage = () => {
       <Wrapper>
           <MainTitleText>📈 <HighlightText>유사도 분석</HighlightText> 을 도와드릴게요</MainTitleText>
           <GuideText>* 현재 서비스는 한국/미국/중국/일본/유럽 다섯 국가의 특허 정보만 제공하고 있습니다</GuideText>
+          <SubText style={{marginTop: '40px', marginBottom:'-50px'}}>아이디어를 입력해주시면, 한 번에 국내외 유사 특허를 보여드려요</SubText>
           <SecondWrapper>
-            <CustomTextInput placeholder="텍스트를 입력해주세요"/>
+            <CustomTextInput 
+              placeholder={"분석할 아이디어를 입력해주세요"}
+              value={text}
+              onChange={handleChange}
+            />
             <CustomButton title='🔍' onClick={handleButtonClick} /> {/* 버튼 클릭 이벤트 핸들러 연결 */}
           </SecondWrapper>
-          <ThirdWrapper>
+          {hasData && (
+          <ThirdWrapper isVisible={hasData}>
             <SubText>당신의 아이디어를 분석한 결과, 유사한 특허는 아래와 같아요</SubText>
-            <Table columns={columns} data={data} />
+            <FourthWrapper>
+              <DefaultText>🇰🇷 국내 특허</DefaultText>
+              <Table columns={columns} data={domesticData} />
+            </FourthWrapper>
+            <FourthWrapper>
+              <DefaultText>🌎 해외 특허</DefaultText>
+              <Table columns={columns} data={internationalData} />
+            </FourthWrapper>
           </ThirdWrapper>
+          )}
       </Wrapper>
       {isLoading && <LoadingOverlay />}
+      {isDialogOpen && (
+        <Dialog
+          title="발명 요약 정보"
+          confirmText="확인"
+          onCancel={() => setIsDialogOpen(false)}
+          onConfirm={() => setIsDialogOpen(false)}
+          visible={isDialogOpen}
+        >
+          {selectedItemDetails}
+        </Dialog>
+      )}
     </div>
   );
 };
 
 export default SimPage;
-
