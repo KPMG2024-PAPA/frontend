@@ -438,7 +438,7 @@ const SpecPage = () => {
             </Box>
             <ButtonContainer2>
               <Tooltip message="Copy">
-                <CopyToClipboard text={responseData} onCopy={() => alert('클립보드에 복사되었습니다.')}>
+                <CopyToClipboard text={'${responseData[0].toString()}${responseData[1].toString()}'} onCopy={() => alert('클립보드에 복사되었습니다.')}>
                 <CustomButton2 title='📋' /></CopyToClipboard> </Tooltip>
               <Tooltip message="Rewrite"> 
                 <CustomButton2 title='🔃' onClick={handleButtonClick}/> </Tooltip>
