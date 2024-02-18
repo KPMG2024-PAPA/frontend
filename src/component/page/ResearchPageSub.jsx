@@ -36,19 +36,28 @@ const Wrapper = styled.div`
   ${animationMixin};
 `;
 
+const FirstWrapper = styled.div`
+  margin-top: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  margin-bottom: 100px;
+  `;
+
 const SecondWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+  width: 70%;
   margin-top: 0px;
+  box-sizing: border-box;
+  justify-content: center;
+  gap: 20px;
 `;
 
 const NewsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
-  padding-bottom: 30px;
   width: 100%;
   ${animationMixin};
 `;
@@ -56,19 +65,17 @@ const NewsWrapper = styled.div`
 const PaperWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding-top: 10px;
   width: 100%;
   ${animationMixin};
 `;
 
 const ChartWrapper = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 30%;
   gap: 20px;
-  margin: 60px;
   box-sizing: border-box;
   `;
 
@@ -324,26 +331,24 @@ const ResearchPageSub = () => {
         </ClickableBox>
       </HeaderComponent>
       <Wrapper>
-        <MainTitleText>📊 작성해주신 아이디어의 <HighlightText> 리서치 대시보드</HighlightText> 에요</MainTitleText>
-        <SubText style={{ textAlign: 'center', marginBottom: '-20px'}}>특허 출원추이 차트</SubText>
-        <ChartWrapper>
-            {chartImage && (
-            <img
-              style={{ padding: '20px', width: '38%', objectFit: 'contain', borderRadius: '15px', boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)' }}
-              src={`data:image/png;base64,${chartImage}`} // Base64 인코딩된 이미지 데이터를 src 속성에 설정
-              alt="Chart"
-            />
-            )}
-            {chartImage2 && (
-              <img
-                style={{ padding: '20px', width: '38%', objectFit: 'contain', borderRadius: '15px', boxShadow: '0px 0px 3px rgba(0, 0, 0, 0.1)' }}
-                src={`data:image/png;base64,${chartImage2}`} // Base64 인코딩된 이미지 데이터를 src 속성에 설정
+        <MainTitleText>🕵🏻 작성해주신 아이디어의 <HighlightText> 리서치 대시보드</HighlightText> 에요</MainTitleText>
+        <FirstWrapper>
+          <ChartWrapper style={{ gap: '20px', padding: '10px', width: '36%', objectFit: 'contain', borderRadius: '15px', boxShadow: 'inset 0px 0px 3px rgba(0, 0, 0, 0.1)' }}>
+          <SubText style={{ textAlign: 'center', marginBottom: '0px'}}>📊 특허 출원추이 차트</SubText>
+              {chartImage && (
+              <img style={{ width: '100%'}}
+                src={`data:image/png;base64,${chartImage}`} // Base64 인코딩된 이미지 데이터를 src 속성에 설정
                 alt="Chart"
               />
-            )}
-        </ChartWrapper>
-        <SecondWrapper>
-        <MainTitleText>🔥 관련 <HighlightText> 국내 논문/뉴스</HighlightText> Top 5 에요</MainTitleText>
+              )}
+              {chartImage2 && (
+                <img style={{ width: '100%'}}
+                  src={`data:image/png;base64,${chartImage2}`} // Base64 인코딩된 이미지 데이터를 src 속성에 설정
+                  alt="Chart"
+                />
+              )}
+          </ChartWrapper>
+          <SecondWrapper style={{ padding: '20px', width: '64%', objectFit: 'contain', borderRadius: '15px', boxShadow: 'inset 0px 0px 3px rgba(0, 0, 0, 0.2)' }}>
           <NewsWrapper>
             <SubText style={{ textAlign: 'center' }}>📰 국내 뉴스</SubText>
             <CustomTable columns={columns_news} data={data_news.slice(0, 5)} />
@@ -353,6 +358,7 @@ const ResearchPageSub = () => {
             <CustomTable columns={columns_paper} data={data_paper.slice(0, 5)} />
           </PaperWrapper>
         </SecondWrapper>
+        </FirstWrapper>
       </Wrapper>
     </div>
   );
